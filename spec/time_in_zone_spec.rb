@@ -69,9 +69,11 @@ describe TimeInZone do
       end
 
       it 'Parse' do
-        tz = TimeInZone.parse time.strftime('%F %T -0400')
-        tz.to_f.must_equal time.to_f + (60 * 60) 
-        tz.utc_offset.must_equal ZoneOffset.parse('-0400')
+        one_hour = 60 * 60
+        offset = ZoneOffset.new local_utc_offset - one_hour
+        tz = TimeInZone.parse time.strftime("%F %T #{offset}")
+        tz.to_f.must_equal time.to_f + one_hour
+        tz.utc_offset.must_equal offset
         tz.hour.must_equal time.hour
       end
 

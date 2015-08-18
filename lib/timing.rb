@@ -6,7 +6,7 @@ require 'timing/version'
 require 'timing/helpers'
 require 'timing/interval'
 require 'timing/zone_offset'
-require 'timing/time_with_zone'
+require 'timing/time_in_zone'
 
 
 module Timing

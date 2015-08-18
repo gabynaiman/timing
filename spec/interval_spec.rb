@@ -63,44 +63,30 @@ describe Timing::Interval do
 
   describe 'Time limits' do
 
-    def assert_next(mode, interval, time, expected)
-      Timing::Interval.parse(interval).send("next_#{mode}_of", Timing::TimeWithZone.parse(time)).to_time.must_equal Time.parse(expected)
+    def assert_limits(moment, interval_expression, expected_begin, expected_end)
+      interval = Timing::Interval.parse interval_expression
+      time = Time.parse moment
+      interval.begin_of(time).must_equal Time.parse(expected_begin)
+      interval.end_of(time).must_equal Time.parse(expected_end)
     end
 
     it 'Minutes' do
-      assert_next :begin, '30m', '2015-08-10 07:03:16', '2015-08-10 07:30:00'
-      assert_next :end,   '30m', '2015-08-10 07:03:16', '2015-08-10 07:29:59'
-
-      assert_next :begin, '10m', '2015-08-10 02:11:38', '2015-08-10 02:20:00'
-      assert_next :end,   '10m', '2015-08-10 02:11:38', '2015-08-10 02:19:59'
-
-      assert_next :begin, '15m', '2015-08-10 00:00:00', '2015-08-10 00:00:00'
-      assert_next :end,   '15m', '2015-08-10 00:00:00', '2015-08-10 00:14:59'
-
-      assert_next :begin, '15m', '2015-08-10 23:59:59', '2015-08-11 00:00:00'
-      assert_next :end,   '15m', '2015-08-10 23:59:59', '2015-08-10 23:59:59'
+      assert_limits '2015-08-10 07:03:16', '30m', '2015-08-10 07:00:00', '2015-08-10 07:29:59'
+      assert_limits '2015-08-10 02:11:38', '10m', '2015-08-10 02:10:00', '2015-08-10 02:19:59'
+      assert_limits '2015-08-10 00:00:00', '15m', '2015-08-10 00:00:00', '2015-08-10 00:14:59'
+      assert_limits '2015-08-10 23:59:59', '20m', '2015-08-10 23:40:00', '2015-08-10 23:59:59'
     end
 
     it 'Hours' do
-      assert_next :begin, '3h', '2015-08-10 01:45:21', '2015-08-10 03:00:00'
-      assert_next :end,   '3h', '2015-08-10 01:45:21', '2015-08-10 02:59:59'
-
-      assert_next :begin, '2h', '2015-08-10 22:52:11', '2015-08-11 00:00:00'
-      assert_next :end,   '2h', '2015-08-10 22:52:11', '2015-08-10 23:59:59'
-
-      assert_next :begin, '1h', '2015-08-10 04:00:00', '2015-08-10 04:00:00'
-      assert_next :end,   '1h', '2015-08-10 04:00:00', '2015-08-10 04:59:59'
-
-      assert_next :begin, '1h', '2015-08-10 18:59:59', '2015-08-10 19:00:00'
-      assert_next :end,   '1h', '2015-08-10 18:59:59', '2015-08-10 18:59:59'
+      assert_limits '2015-08-10 01:45:21', '3h', '2015-08-10 00:00:00', '2015-08-10 02:59:59'
+      assert_limits '2015-08-10 22:52:11', '2h', '2015-08-10 22:00:00', '2015-08-10 23:59:59'
+      assert_limits '2015-08-10 04:00:00', '1h', '2015-08-10 04:00:00', '2015-08-10 04:59:59'
+      assert_limits '2015-08-10 18:59:59', '1h', '2015-08-10 18:00:00', '2015-08-10 18:59:59'
     end
 
     it 'Days' do
-      assert_next :begin, '1d', '2015-08-10 11:51:14', '2015-08-11 00:00:00'
-      assert_next :end,   '1d', '2015-08-10 11:51:14', '2015-08-10 23:59:59'
-
-      assert_next :begin, '7d', '2015-08-10 08:24:55', '2015-08-17 00:00:00'
-      assert_next :end,   '7d', '2015-08-10 08:24:55', '2015-08-16 23:59:59'
+      assert_limits '2015-08-10 11:51:14', '1d', '2015-08-10 00:00:00', '2015-08-10 23:59:59'
+      assert_limits '2015-08-10 08:24:55', '2d', '2015-08-09 00:00:00', '2015-08-10 23:59:59'
     end
 
   end

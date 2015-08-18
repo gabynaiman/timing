@@ -1,5 +1,5 @@
 module Timing
-  class TimeWithZone
+  class TimeInZone
 
     extend Forwardable
 
@@ -19,6 +19,10 @@ module Timing
       @zone_offset = build_zone_offset zone_offset
     end
 
+    alias_method :utc_offset, :zone_offset
+    alias_method :gmt_offset, :zone_offset
+    alias_method :gmtoff,     :zone_offset
+
     def +(seconds)
       self.class.new (time + seconds), zone_offset
     end
@@ -30,6 +34,7 @@ module Timing
     def utc?
       zone_offset == 0
     end
+    alias_method :gmt?, :utc?
 
     def to_utc
       self.class.new time, 0

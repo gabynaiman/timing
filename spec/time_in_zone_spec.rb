@@ -3,7 +3,7 @@ require 'minitest_helper'
 describe TimeInZone do
 
   let(:time_string) { '2015-08-18 20:17:42 -0300' }
-  let(:time) { Time.parse time_string }
+  let(:time) { Time.parse(time_string).getlocal }
   let(:local_utc_offset) { time.utc_offset }
 
   describe 'Constructors' do

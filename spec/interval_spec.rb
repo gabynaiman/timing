@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe Timing::Interval do
+describe Interval do
 
   let(:random) { (rand * 10).round(1) }
   
@@ -10,11 +10,11 @@ describe Timing::Interval do
   let(:weeks_in_seconds)   { 60 * 60 * 24 * 7 }
 
   def assert_parsed_seconds(expression, expected_seconds)
-    Timing::Interval.parse(expression).must_equal expected_seconds
+    Interval.parse(expression).must_equal expected_seconds
   end
 
   def assert_parsed_to_s(expression, expected_string)
-    Timing::Interval.parse(expression).to_s.must_equal expected_string
+    Interval.parse(expression).to_s.must_equal expected_string
   end
 
   it 'Parsing' do
@@ -24,20 +24,20 @@ describe Timing::Interval do
     assert_parsed_seconds "#{random}d", random * days_in_seconds
     assert_parsed_seconds "#{random}w", random * weeks_in_seconds
 
-    error = proc { Timing::Interval.parse 'xyz' }.must_raise RuntimeError
+    error = proc { Interval.parse 'xyz' }.must_raise RuntimeError
     error.message.must_equal 'Invalid interval expression xyz'
   end
 
   it 'Builders' do
-    Timing::Interval.seconds(random).must_equal random
-    Timing::Interval.minutes(random).must_equal random * minutes_in_seconds
-    Timing::Interval.hours(random).must_equal   random * hours_in_seconds
-    Timing::Interval.days(random).must_equal    random * days_in_seconds
-    Timing::Interval.weeks(random).must_equal   random * weeks_in_seconds
+    Interval.seconds(random).must_equal random
+    Interval.minutes(random).must_equal random * minutes_in_seconds
+    Interval.hours(random).must_equal   random * hours_in_seconds
+    Interval.days(random).must_equal    random * days_in_seconds
+    Interval.weeks(random).must_equal   random * weeks_in_seconds
   end
 
   it 'Conversions' do
-    interval = Timing::Interval.new random
+    interval = Interval.new random
 
     interval.to_seconds.must_equal random
     interval.to_minutes.must_equal random / minutes_in_seconds
@@ -61,10 +61,24 @@ describe Timing::Interval do
     assert_parsed_to_s '3w',  '3w'
   end
 
+  it 'Inspect' do
+    Interval.new(30).inspect.must_equal '30s (30.0)'
+    Interval.parse('2m').inspect.must_equal '2m (120.0)'
+  end
+
+  it 'Between two times' do
+    now = Time.now
+    a_minute_ago = now - 60
+    two_days_ago = now - (60 * 60 * 24 * 2)
+
+    Interval.between(now, a_minute_ago).must_equal Interval.minutes(1)
+    Interval.between(two_days_ago, now).must_equal Interval.days(2)
+  end
+
   describe 'Time limits' do
 
     def assert_limits(moment, interval_expression, expected_begin, expected_end)
-      interval = Timing::Interval.parse interval_expression
+      interval = Interval.parse interval_expression
       time = Time.parse moment
       interval.begin_of(time).must_equal Time.parse(expected_begin)
       interval.end_of(time).must_equal Time.parse(expected_end)

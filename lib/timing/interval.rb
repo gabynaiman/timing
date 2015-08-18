@@ -46,24 +46,6 @@ module Timing
       begin_of(time) + self - 1
     end
 
-    # def next_begin_of(time)
-    #   previous_begin_of(time) + self
-    # end
-
-    # def previous_begin_of(time)
-    #   normalized_time = time + time.utc_offset
-    #   gap = normalized_time.to_i % self
-    #   normalized_time - gap - time.utc_offset
-    # end
-
-    # def next_end_of(time)
-    #   previous_end_of(time) + self
-    # end
-
-    # def previous_end_of(time)
-    #   previous_begin_of(time) - 1
-    # end
-
     def to_s
       integer = CONVERSIONS.map { |u,f| [to_f / f, "#{to_i / f}#{u}"] }
                            .sort_by { |v,t| v }
@@ -72,7 +54,7 @@ module Timing
     end
 
     def inspect
-      "#{to_s} (#{to_seconds}s)"
+      "#{to_s} (#{to_seconds})"
     end
 
     def self.parse(expression)

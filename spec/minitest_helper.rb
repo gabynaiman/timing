@@ -9,3 +9,5 @@ Turn.config do |c|
   c.natural = true
   c.ansi = true
 end
+
+include Timing

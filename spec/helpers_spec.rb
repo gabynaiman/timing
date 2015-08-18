@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe Timing::Helpers do
+describe Helpers do
 
   let(:time) { Time.parse '2015-08-10 02:11:38' }
   

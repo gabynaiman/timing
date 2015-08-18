@@ -78,9 +78,8 @@ module Timing
     def build_zone_offset(zone_offset)
       case zone_offset
         when ZoneOffset then zone_offset
-        when String then ZoneOffset.parse(zone_offset)
         when Numeric then ZoneOffset.new(zone_offset)
-        else raise ArgumentError, "Invalid zone offset #{zone_offset}"
+        else ZoneOffset.parse(zone_offset)
       end
     end
 

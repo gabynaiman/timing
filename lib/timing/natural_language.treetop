@@ -1,0 +1,130 @@
+module Timing
+  grammar NaturalLanguage
+
+    rule expression
+      space* moment:moment space* zone_offset:zone_offset? space* <Expression>
+    end
+
+    rule moment
+      named_moment / 
+      direction_to_day_name / 
+      day_month_name_year / 
+      year_month_day
+    end
+
+    rule named_moment
+      now / today / tomorrow / yesterday
+    end
+
+    rule direction_to_day_name
+      direction:direction space* day_name:day_name <DirectionToDayName>
+    end
+
+    rule day_month_name_year
+      day:integer space* month:month_name space* year:integer? space* <DayMonthNameYear>
+    end
+
+    rule year_month_day
+      year:integer '-' month:integer '-' day:integer <YearMonthDay>
+    end
+
+    rule now
+      'now'i <Now>
+    end
+
+    rule today
+      'today'i <Today>
+    end
+
+    rule tomorrow
+      'tomorrow'i <Tomorrow>
+    end
+
+    rule yesterday
+      'yesterday'i <Yesterday>
+    end
+
+    rule direction
+      next / last
+    end
+
+    rule next
+      'next'i <Direction>
+    end
+
+    rule last
+      'last'i <Direction>
+    end
+
+    rule day_name
+      long_day_name / short_day_name
+    end
+
+    rule long_day_name
+      'sunday'i    <DayName> /
+      'monday'i    <DayName> /
+      'tuesday'i   <DayName> /
+      'wednesday'i <DayName> /
+      'thursday'i  <DayName> /
+      'friday'i    <DayName> /
+      'saturday'i  <DayName>
+    end
+
+    rule short_day_name
+      'sun'i <DayName> /
+      'mon'i <DayName> /
+      'tue'i <DayName> /
+      'wed'i <DayName> /
+      'thu'i <DayName> /
+      'fri'i <DayName> /
+      'sat'i <DayName>
+    end
+
+    rule month_name
+      long_month_name / short_month_name
+    end
+
+    rule long_month_name
+      'january'i   <MonthName> /
+      'february'i  <MonthName> /
+      'march'i     <MonthName> /
+      'april'i     <MonthName> /
+      'may'i       <MonthName> /
+      'june'i      <MonthName> /
+      'july'i      <MonthName> /
+      'august'i    <MonthName> /
+      'september'i <MonthName> /
+      'october'i   <MonthName> /
+      'november'i  <MonthName> /
+      'december'i  <MonthName>
+    end
+
+    rule short_month_name
+      'jan'i <MonthName> /
+      'feb'i <MonthName> /
+      'mar'i <MonthName> /
+      'apr'i <MonthName> /
+      'may'i <MonthName> /
+      'jun'i <MonthName> /
+      'jul'i <MonthName> /
+      'aug'i <MonthName> /
+      'sep'i <MonthName> /
+      'oct'i <MonthName> /
+      'nov'i <MonthName> /
+      'dec'i <MonthName>
+    end
+
+    rule zone_offset
+      [+-] [\d]2..2 ':'? [\d]2..2 <ZoneOffset>
+    end
+
+    rule integer
+      [\d]+ <Int>
+    end
+
+    rule space
+      [\s\t\n]
+    end
+
+  end
+end

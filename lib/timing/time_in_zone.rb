@@ -6,7 +6,7 @@ module Timing
     REGEXP = /[+-]\d\d:?\d\d/
 
     def_delegators :time, :to_i, :to_f, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash
-    def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec
+    def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec, :wday, :yday
 
     attr_reader :zone_offset
     
@@ -56,6 +56,14 @@ module Timing
 
     def strftime(format)
       time_with_offset.strftime format.gsub('%Z', '').gsub('%z', zone_offset.to_s)
+    end
+
+    def beginning_of_day
+      Timing.beginning_of_day self
+    end
+
+    def end_of_day
+      Timing.end_of_day self
     end
 
     def self.now(zone_offset=nil)

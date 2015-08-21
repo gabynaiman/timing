@@ -56,7 +56,7 @@ describe TimeInZone do
         now = Time.now
         (now.to_f - tz.to_f).must_be :<, 0.01
         tz.utc_offset.must_equal ZoneOffset.parse('-0500')
-        tz.hour.must_equal now.getutc.hour - 5
+        tz.hour.must_equal (now.getutc - Interval.hours(5)).hour
       end
 
       it 'At' do

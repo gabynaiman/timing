@@ -29,7 +29,8 @@ describe Helpers do
   end
 
   it 'Days in month' do
-    Timing.days_in_month(2012, 02).must_equal 29
+    Timing.days_in_month(2, 2012).must_equal 29
+    Timing.days_in_month(1).must_equal 31
   end
 
 end

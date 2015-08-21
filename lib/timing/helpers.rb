@@ -11,6 +11,16 @@ module Timing
       TimeInZone.parse time.strftime('%Y-%m-%d 23:59:59 %z')
     end
 
+    def beginning_of_week(time)
+      date = beginning_of_day time
+      date - Interval.days(date.wday)
+    end
+
+    def end_of_week(time)
+      date = end_of_day time
+      date + Interval.days(6 - date.wday)
+    end
+
     def beginning_of_month(time)
       TimeInZone.parse time.strftime('%Y-%m-01 00:00:00 %z')
     end

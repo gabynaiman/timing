@@ -12,6 +12,14 @@ describe Helpers do
     Timing.end_of_day(time).to_time.must_equal Time.parse('2015-08-10 23:59:59 +0700')
   end
 
+  it 'Begining of week' do
+    Timing.beginning_of_week(time).to_time.must_equal Time.parse('2015-08-09 00:00:00 +0700')
+  end
+
+  it 'End of week' do
+    Timing.end_of_week(time).to_time.must_equal Time.parse('2015-08-15 23:59:59 +0700')
+  end
+
   it 'Beginning of month' do
     Timing.beginning_of_month(time).to_time.must_equal Time.parse('2015-08-01 00:00:00 +0700')
   end

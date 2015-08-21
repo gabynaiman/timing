@@ -4,6 +4,14 @@ describe Helpers do
 
   let(:time) { TimeInZone.parse '2015-08-10 02:11:38 +0700' }
   
+  it 'Beginning of hour' do
+    Timing.beginning_of_hour(time).to_time.must_equal Time.parse('2015-08-10 02:00:00 +0700')
+  end
+
+  it 'End of hour' do
+    Timing.end_of_hour(time).to_time.must_equal Time.parse('2015-08-10 02:59:59 +0700')
+  end
+
   it 'Beginning of day' do
     Timing.beginning_of_day(time).to_time.must_equal Time.parse('2015-08-10 00:00:00 +0700')
   end

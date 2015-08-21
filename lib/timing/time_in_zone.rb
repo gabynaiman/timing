@@ -58,7 +58,7 @@ module Timing
       time_with_offset.strftime format.gsub('%Z', '').gsub('%z', zone_offset.to_s)
     end
 
-    %w(day week month year).each do |interval|
+    %w(hour day week month year).each do |interval|
       beginning_method_name = "beginning_of_#{interval}"
       define_method beginning_method_name do
         Timing.send beginning_method_name, self

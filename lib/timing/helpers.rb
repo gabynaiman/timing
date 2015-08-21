@@ -3,6 +3,14 @@ module Timing
 
     MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
+    def beginning_of_hour(time)
+      TimeInZone.parse time.strftime('%Y-%m-%d %H:00:00 %z')
+    end
+
+    def end_of_hour(time)
+      TimeInZone.parse time.strftime('%Y-%m-%d %H:59:59 %z')
+    end
+
     def beginning_of_day(time)
       TimeInZone.parse time.strftime('%Y-%m-%d 00:00:00 %z')
     end

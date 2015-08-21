@@ -6,8 +6,9 @@ module Timing
     end
 
     rule moment
+      beginning_end_date_interval /
       named_moment / 
-      direction_to_day_name / 
+      last_next_day_name / 
       day_month_name_year / 
       year_month_day
     end
@@ -16,8 +17,8 @@ module Timing
       now / today / tomorrow / yesterday
     end
 
-    rule direction_to_day_name
-      direction:direction space* day_name:day_name <DirectionToDayName>
+    rule last_next_day_name
+      direction:last_next space* day_name:day_name <LastNextDayName>
     end
 
     rule day_month_name_year
@@ -26,6 +27,10 @@ module Timing
 
     rule year_month_day
       year:integer '-' month:integer '-' day:integer <YearMonthDay>
+    end
+
+    rule beginning_end_date_interval
+      direction:beginning_end space* interval_type:date_interval <BeginningEndDateInterval>
     end
 
     rule now
@@ -44,20 +49,52 @@ module Timing
       'yesterday'i <Yesterday>
     end
 
-    rule direction
-      next / last
-    end
-
-    rule next
-      'next'i <Direction>
+    rule last_next
+      last / next
     end
 
     rule last
-      'last'i <Direction>
+      'last'i <LastNext>
+    end
+
+    rule next
+      'next'i <LastNext>
+    end
+
+    rule beginning_end
+      beginning_of / end_of
+    end
+
+    rule beginning_of
+      direction:'beginning'i space* 'of'i <BeginningEnd>
+    end
+
+    rule end_of
+      direction:'end'i space* 'of'i <BeginningEnd>
     end
 
     rule day_name
       long_day_name / short_day_name
+    end
+
+    rule date_interval
+      day_interval / week_interval / month_interval / year_interval
+    end
+
+    rule day_interval
+      'day'i <DayInterval>
+    end
+
+    rule week_interval
+      'week'i <WeekInterval>
+    end
+
+    rule month_interval
+      'month'i <MonthInterval>
+    end
+
+    rule year_interval
+      'year'i <YearInterval>
     end
 
     rule long_day_name

@@ -22,26 +22,33 @@ describe NaturalTimeLanguage do
     it_must_equal_time('Now -0500') { '2015-08-20 00:30:46 -0500' }
   end
 
-  describe 'Date (at beginning of day)' do
-    it_must_equal_time('today')              { TimeInZone.now.beginning_of_day }
-    it_must_equal_time('today +0000')        { '2015-08-20 00:00:00 +0000' }
-    it_must_equal_time('Today -0600')        { '2015-08-19 00:00:00 -0600' }
-    it_must_equal_time('yesterday -0400')    { '2015-08-19 00:00:00 -0400' }
-    it_must_equal_time('tomorrow -0300')     { '2015-08-21 00:00:00 -0300' }
+  describe 'Named dates' do
+    it_must_equal_time('today')           { TimeInZone.now.beginning_of_day }
+    it_must_equal_time('today +0000')     { '2015-08-20 00:00:00 +0000' }
+    it_must_equal_time('Today -0600')     { '2015-08-19 00:00:00 -0600' }
+    it_must_equal_time('yesterday -0400') { '2015-08-19 00:00:00 -0400' }
+    it_must_equal_time('tomorrow -0300')  { '2015-08-21 00:00:00 -0300' }
+  end
 
+  describe 'Last/Next day name' do
     it_must_equal_time('last Monday +0200')  { '2015-08-17 00:00:00 +0200' }
     it_must_equal_time('last fri +0100')     { '2015-08-14 00:00:00 +0100' }
     it_must_equal_time('next tuesday +0000') { '2015-08-25 00:00:00 +0000' }
     it_must_equal_time('next sat -0100')     { '2015-08-22 00:00:00 -0100' }
+  end
+
+  describe 'Date (at 00:00:00)' do
+    it_must_equal_time('6 April')           { "2015-04-06 00:00:00 #{local_offset}" }
+    it_must_equal_time('14 Jul 2010 +0400') { '2010-07-14 00:00:00 +0400' }
+    it_must_equal_time('2015-09-03')        { "2015-09-03 00:00:00 #{local_offset}" }
+    it_must_equal_time('2015-06-20 -0800')  { '2015-06-20 00:00:00 -0800' }
+  end
     
-    it_must_equal_time('6 April')            { "2015-04-06 00:00:00 #{local_offset}" }
-    it_must_equal_time('14 Jul 2010 +0400')  { '2010-07-14 00:00:00 +0400' }
-    it_must_equal_time('2015-09-03')         { "2015-09-03 00:00:00 #{local_offset}" }
-    it_must_equal_time('2015-06-20 -0800')   { '2015-06-20 00:00:00 -0800' }
-    
-    it_must_equal_time('beginning of month') { }
-    it_must_equal_time('end of year +0700')  { }
-    it_must_equal_time('beginning of week')  { }
+  describe 'Beginning/End of interval' do
+    it_must_equal_time('Beginning of month') { "2015-08-01 00:00:00 #{local_offset}" }
+    it_must_equal_time('end of year +0700')  { '2015-12-31 23:59:59 +0700' }
+    it_must_equal_time('beginning of week')  { "2015-08-16 00:00:00 #{local_offset}" }
+    it_must_equal_time('End of Day -0100')   { "2015-08-20 23:59:59 -0100" }
   end
 
   describe 'Date and time' do

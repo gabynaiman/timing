@@ -47,22 +47,33 @@ module Timing
       end
     end
 
-    class DirectionToDayName < Treetop::Runtime::SyntaxNode
+    class LastNextDayName < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
         today = TimeInZone.now(zone_offset).beginning_of_day
 
         if direction.last?
-          if today.wday > day_name.wday
-            today - Interval.days(today.wday - day_name.wday)
+          if today.wday > day_name.value
+            today - Interval.days(today.wday - day_name.value)
           else
-            today - Interval.weeks(1) + Interval.days(day_name.wday - today.wday)
+            today - Interval.weeks(1) + Interval.days(day_name.value - today.wday)
           end
         else
-          if today.wday < day_name.wday
-            today + Interval.days(day_name.wday - today.wday)
+          if today.wday < day_name.value
+            today + Interval.days(day_name.value - today.wday)
           else
-            today + Interval.weeks(1) - Interval.days(today.wday - day_name.wday)
+            today + Interval.weeks(1) - Interval.days(today.wday - day_name.value)
           end
+        end
+      end
+    end
+
+    class BeginningEndDateInterval < Treetop::Runtime::SyntaxNode
+      def evaluate(zone_offset)
+        now = TimeInZone.now zone_offset
+        if direction.beginning?
+          interval_type.beginning_of now
+        else
+          interval_type.end_of now
         end
       end
     end
@@ -86,19 +97,69 @@ module Timing
       end
     end
 
-    class Direction < Treetop::Runtime::SyntaxNode
-      def next?
-        text_value == 'next'
+    class BeginningEnd < Treetop::Runtime::SyntaxNode
+      def beginning?
+        direction.text_value.downcase == 'beginning'
       end
 
-      def last?
-        text_value == 'last'
+      def end?
+        direction.text_value.downcase == 'end'
       end
     end
 
+    class LastNext < Treetop::Runtime::SyntaxNode
+      def last?
+        text_value.downcase == 'last'
+      end
+
+      def next?
+        text_value.downcase == 'next'
+      end
+    end
+
+    class DayInterval < Treetop::Runtime::SyntaxNode
+      def beginning_of(time)
+        time.beginning_of_day
+      end
+
+      def end_of(time)
+        time.end_of_day
+      end
+    end
+
+    class WeekInterval < Treetop::Runtime::SyntaxNode
+      def beginning_of(time)
+        time.beginning_of_week
+      end
+
+      def end_of(time)
+        time.end_of_week
+      end
+    end
+
+    class MonthInterval < Treetop::Runtime::SyntaxNode
+      def beginning_of(time)
+        time.beginning_of_month
+      end
+
+      def end_of(time)
+        time.end_of_month
+      end
+    end
+
+    class YearInterval < Treetop::Runtime::SyntaxNode
+      def beginning_of(time)
+        time.beginning_of_year
+      end
+
+      def end_of(time)
+        time.end_of_year
+      end
+    end    
+
     class DayName < Treetop::Runtime::SyntaxNode
       SHORT_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
-      def wday
+      def value
         SHORT_NAMES.index text_value[0..2].downcase
       end
     end

@@ -5,7 +5,7 @@ module Timing
 
     REGEXP = /[+-]\d\d:?\d\d/
 
-    def_delegators :time, :to_i, :to_f, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash
+    def_delegators :time, :to_i, :to_f, :to_date, :to_datetime, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash
     def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec, :wday, :yday
 
     attr_reader :zone_offset
@@ -70,12 +70,12 @@ module Timing
       end
     end
 
-    def beginning_of_day
-      Timing.beginning_of_day self
+    def months_ago(count)
+      Timing.months_ago self, count
     end
 
-    def end_of_day
-      Timing.end_of_day self
+    def years_ago(count)
+      Timing.years_ago self, count
     end
 
     def self.now(zone_offset=nil)

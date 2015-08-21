@@ -49,4 +49,13 @@ describe Helpers do
     Timing.days_in_month(1).must_equal 31
   end
 
+  it 'Months ago' do
+    Timing.months_ago(time, 4).to_time.must_equal Time.parse('2015-04-10 02:11:38 +0700')
+    Timing.months_ago(time, 21).to_time.must_equal Time.parse('2013-11-10 02:11:38 +0700')
+  end
+
+  it 'Years ago' do
+    Timing.years_ago(time, 4).to_time.must_equal Time.parse('2011-08-10 02:11:38 +0700')
+  end
+
 end

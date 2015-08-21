@@ -50,5 +50,13 @@ module Timing
       MONTH_DAYS[month-1]
     end
 
+    def months_ago(time, count)
+      TimeInZone.new (time.to_datetime << count).to_time, time.utc_offset
+    end
+
+    def years_ago(time, count)
+      months_ago time, count * 12
+    end
+
   end
 end

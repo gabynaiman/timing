@@ -1,5 +1,5 @@
 module Timing
-  module NaturalLanguage
+  module NaturalTimeLanguage
 
     class << self
 
@@ -12,7 +12,7 @@ module Timing
       private
 
       def parser
-        @parser ||= NaturalLanguageParser.new
+        @parser ||= NaturalTimeLanguageParser.new
       end
 
     end

@@ -1,5 +1,5 @@
 module Timing
-  grammar NaturalLanguage
+  grammar NaturalTimeLanguage
 
     rule expression
       space* moment:moment space* zone_offset:zone_offset? space* <Expression>

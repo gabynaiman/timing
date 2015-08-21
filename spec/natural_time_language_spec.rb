@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe NaturalLanguage do
+describe NaturalTimeLanguage do
 
   before { Time.now = Time.parse '2015-08-20 05:30:46 +0000' }
   after  { Time.now = nil }
@@ -11,7 +11,7 @@ describe NaturalLanguage do
     it expression do
       expected = instance_eval &block
       skip 'Not implemented' unless expected
-      tz = NaturalLanguage.parse expression
+      tz = NaturalTimeLanguage.parse expression
       tz.must_be_instance_of TimeInZone
       tz.to_s.must_equal expected.to_s
     end

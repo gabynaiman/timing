@@ -2,7 +2,7 @@
 
 
 module Timing
-  module NaturalLanguage
+  module NaturalTimeLanguage
     include Treetop::Runtime
 
     def root
@@ -1351,8 +1351,8 @@ module Timing
 
   end
 
-  class NaturalLanguageParser < Treetop::Runtime::CompiledParser
-    include NaturalLanguage
+  class NaturalTimeLanguageParser < Treetop::Runtime::CompiledParser
+    include NaturalTimeLanguage
   end
 
 end

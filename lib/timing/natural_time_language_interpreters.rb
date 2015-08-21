@@ -78,6 +78,12 @@ module Timing
       end
     end
 
+    class TimeAgo < Treetop::Runtime::SyntaxNode
+      def evaluate(zone_offset)
+        interval_type.time_ago(number.value, zone_offset)
+      end
+    end
+
     class DayMonthNameYear < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
         now = TimeInZone.now zone_offset
@@ -117,7 +123,53 @@ module Timing
       end
     end
 
+    class SecondInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset) - Interval.seconds(number)
+      end
+
+      def beginning_of(time)
+        raise 'Not supported'
+      end
+
+      def end_of(time)
+        raise 'Not supported'
+      end
+    end
+
+    class MinuteInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset) - Interval.minutes(number)
+      end
+
+      def beginning_of(time)
+        raise 'Not supported'
+      end
+
+      def end_of(time)
+        raise 'Not supported'
+      end
+    end
+
+    class HourInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset) - Interval.hours(number)
+      end
+
+      def beginning_of(time)
+        time.beginning_of_hour
+      end
+
+      def end_of(time)
+        time.end_of_hour
+      end
+    end    
+
     class DayInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset) - Interval.days(number)
+      end
+
       def beginning_of(time)
         time.beginning_of_day
       end
@@ -128,6 +180,10 @@ module Timing
     end
 
     class WeekInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset) - Interval.weeks(number)
+      end
+
       def beginning_of(time)
         time.beginning_of_week
       end
@@ -138,6 +194,10 @@ module Timing
     end
 
     class MonthInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset).months_ago(number)
+      end
+
       def beginning_of(time)
         time.beginning_of_month
       end
@@ -148,6 +208,10 @@ module Timing
     end
 
     class YearInterval < Treetop::Runtime::SyntaxNode
+      def time_ago(number, zone_offset)
+        TimeInZone.now(zone_offset).years_ago(number)
+      end
+
       def beginning_of(time)
         time.beginning_of_year
       end

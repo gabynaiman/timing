@@ -22,7 +22,7 @@ describe NaturalTimeLanguage do
     it_must_equal_time('Now -0500') { '2015-08-20 00:30:46 -0500' }
   end
 
-  describe 'Named dates' do
+  describe 'Named moments' do
     it_must_equal_time('today')           { TimeInZone.now.beginning_of_day }
     it_must_equal_time('today +0000')     { '2015-08-20 00:00:00 +0000' }
     it_must_equal_time('Today -0600')     { '2015-08-19 00:00:00 -0600' }
@@ -48,36 +48,37 @@ describe NaturalTimeLanguage do
     it_must_equal_time('Beginning of month') { "2015-08-01 00:00:00 #{local_offset}" }
     it_must_equal_time('end of year +0700')  { '2015-12-31 23:59:59 +0700' }
     it_must_equal_time('beginning of week')  { "2015-08-16 00:00:00 #{local_offset}" }
-    it_must_equal_time('End of Day -0100')   { "2015-08-20 23:59:59 -0100" }
-  end
-
-  describe 'Date and time' do
-    it_must_equal_time('today at 15:40')                        { }
-    it_must_equal_time('last sunday at 08:43:21 -0300')         { }
-    it_must_equal_time('yesterday at beginning of day')         { }
-    it_must_equal_time('next friday at beginning of day -0100') { }
-    it_must_equal_time('end of year at end of day')             { }
-    it_must_equal_time('2012-08-17 14:35:00 +0600')             { }
-    it_must_equal_time('27 Nov 13:25')                          { }
-    it_must_equal_time('14 May 2011 at end of day -0400')       { }
+    it_must_equal_time('End of Day -0100')   { '2015-08-20 23:59:59 -0100' }
+    it_must_equal_time('end of hour +0400')  { '2015-08-20 09:59:59 +0400' }
   end
 
   describe 'Time ago (now - interval)' do
-    it_must_equal_time('1 minute ago') { }
-    it_must_equal_time('3 hours ago')  { }
-    it_must_equal_time('5 days ago')   { }
-    it_must_equal_time('7 weeks ago')  { }
-    it_must_equal_time('2 months ago') { }
-    it_must_equal_time('1 year ago')   { }
+    it_must_equal_time('1 minute ago')        { TimeInZone.now - Interval.minutes(1) }
+    it_must_equal_time('3 hours ago -0500')   { '2015-08-19 21:30:46 -0500' }
+    it_must_equal_time('5 days ago -0100')    { '2015-08-15 04:30:46 -0100' }
+    it_must_equal_time('4 weeks ago +0100')   { '2015-07-23 06:30:46 +0100' }
+    it_must_equal_time('10 months ago +0330') { '2014-10-20 09:00:46 +0330' }
+    it_must_equal_time('7 years ago -0700')   { '2008-08-19 22:30:46 -0700' }
   end
 
-  describe 'Combined (interval before/from data and time)' do
-    it_must_equal_time('3 days before yesterday')                 { }
-    it_must_equal_time('1 month from today')                      { }
-    it_must_equal_time('1 week from last monday at 08:30 -0400')  { }
-    it_must_equal_time('5 days before next friday at end of day') { }
-    it_must_equal_time('1 month before beginning of month')       { }
-    it_must_equal_time('1 year before 9 Sep')                     { }
-  end
+  # describe 'Date and time' do
+  #   it_must_equal_time('today at 15:40')                        { }
+  #   it_must_equal_time('last sunday at 08:43:21 -0300')         { }
+  #   it_must_equal_time('yesterday at beginning of day')         { }
+  #   it_must_equal_time('next friday at beginning of day -0100') { }
+  #   it_must_equal_time('end of year at end of day')             { }
+  #   it_must_equal_time('2012-08-17 14:35:00 +0600')             { }
+  #   it_must_equal_time('27 Nov 13:25')                          { }
+  #   it_must_equal_time('14 May 2011 at end of day -0400')       { }
+  # end
+
+  # describe 'Combined (interval before/from data and time)' do
+  #   it_must_equal_time('3 days before yesterday')                 { }
+  #   it_must_equal_time('1 month from today')                      { }
+  #   it_must_equal_time('1 week from last monday at 08:30 -0400')  { }
+  #   it_must_equal_time('5 days before next friday at end of day') { }
+  #   it_must_equal_time('1 month before beginning of month')       { }
+  #   it_must_equal_time('1 year before 9 Sep')                     { }
+  # end
 
 end

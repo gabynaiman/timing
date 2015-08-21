@@ -6,11 +6,12 @@ module Timing
     end
 
     rule moment
-      beginning_end_date_interval /
       named_moment / 
       last_next_day_name / 
       day_month_name_year / 
-      year_month_day
+      year_month_day /
+      beginning_end_interval /
+      time_ago
     end
 
     rule named_moment
@@ -29,8 +30,12 @@ module Timing
       year:integer '-' month:integer '-' day:integer <YearMonthDay>
     end
 
-    rule beginning_end_date_interval
-      direction:beginning_end space* interval_type:date_interval <BeginningEndDateInterval>
+    rule beginning_end_interval
+      direction:beginning_end space* interval_type:interval <BeginningEndDateInterval>
+    end
+
+    rule time_ago
+      number:integer space* interval_type:interval space* 'ago'i <TimeAgo>
     end
 
     rule now
@@ -77,24 +82,42 @@ module Timing
       long_day_name / short_day_name
     end
 
-    rule date_interval
-      day_interval / week_interval / month_interval / year_interval
+    rule interval
+      second_interval / 
+      minute_interval / 
+      hour_interval / 
+      day_interval / 
+      week_interval / 
+      month_interval / 
+      year_interval
+    end
+
+    rule second_interval
+      'second'i 's'i? <SecondInterval>
+    end
+
+    rule minute_interval
+      'minute'i 's'i? <MinuteInterval>
+    end
+
+    rule hour_interval
+      'hour'i 's'i? <HourInterval>
     end
 
     rule day_interval
-      'day'i <DayInterval>
+      'day'i 's'i? <DayInterval>
     end
 
     rule week_interval
-      'week'i <WeekInterval>
+      'week'i 's'i?  <WeekInterval>
     end
 
     rule month_interval
-      'month'i <MonthInterval>
+      'month'i 's'i?  <MonthInterval>
     end
 
     rule year_interval
-      'year'i <YearInterval>
+      'year'i 's'i?  <YearInterval>
     end
 
     rule long_day_name

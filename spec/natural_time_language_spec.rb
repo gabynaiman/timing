@@ -66,10 +66,10 @@ describe NaturalTimeLanguage do
   #   it_must_equal_time('last sunday at 08:43:21 -0300')         { }
   #   it_must_equal_time('yesterday at beginning of day')         { }
   #   it_must_equal_time('next friday at beginning of day -0100') { }
-  #   it_must_equal_time('end of year at end of day')             { }
-  #   it_must_equal_time('2012-08-17 14:35:00 +0600')             { }
-  #   it_must_equal_time('27 Nov 13:25')                          { }
+  #   it_must_equal_time('beginning of year at end of day')       { }
   #   it_must_equal_time('14 May 2011 at end of day -0400')       { }
+  #   it_must_equal_time('27 Nov at 13:25')                       { }
+  #   it_must_equal_time('2012-08-17 14:35:00 +0600')             { }
   # end
 
   # describe 'Combined (interval before/from data and time)' do

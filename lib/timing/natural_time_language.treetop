@@ -31,7 +31,7 @@ module Timing
     end
 
     rule beginning_end_interval
-      direction:beginning_end space* interval_type:interval <BeginningEndDateInterval>
+      direction:beginning_end space* interval_type:interval <BeginningEndInterval>
     end
 
     rule time_ago

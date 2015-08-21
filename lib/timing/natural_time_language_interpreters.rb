@@ -67,7 +67,7 @@ module Timing
       end
     end
 
-    class BeginningEndDateInterval < Treetop::Runtime::SyntaxNode
+    class BeginningEndInterval < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
         now = TimeInZone.now zone_offset
         if direction.beginning?

@@ -454,7 +454,7 @@ module Timing
         end
       end
       if s0.last
-        r0 = instantiate_node(BeginningEndDateInterval,input, i0...index, s0)
+        r0 = instantiate_node(BeginningEndInterval,input, i0...index, s0)
         r0.extend(BeginningEndInterval0)
       else
         @index = i0

@@ -17,12 +17,9 @@ describe NaturalTimeLanguage do
     end
   end
 
-  describe 'Now' do
-    it_must_equal_time('now')       { TimeInZone.now }
-    it_must_equal_time('Now -0500') { '2015-08-20 00:30:46 -0500' }
-  end
-
   describe 'Named moments' do
+    it_must_equal_time('now')             { TimeInZone.now }
+    it_must_equal_time('Now -0500')       { '2015-08-20 00:30:46 -0500' }
     it_must_equal_time('today')           { TimeInZone.now.beginning_of_day }
     it_must_equal_time('today +0000')     { '2015-08-20 00:00:00 +0000' }
     it_must_equal_time('Today -0600')     { '2015-08-19 00:00:00 -0600' }
@@ -62,14 +59,14 @@ describe NaturalTimeLanguage do
   end
 
   # describe 'Date and time' do
-  #   it_must_equal_time('today at 15:40')                        { }
-  #   it_must_equal_time('last sunday at 08:43:21 -0300')         { }
-  #   it_must_equal_time('yesterday at beginning of day')         { }
-  #   it_must_equal_time('next friday at beginning of day -0100') { }
-  #   it_must_equal_time('beginning of year at end of day')       { }
-  #   it_must_equal_time('14 May 2011 at end of day -0400')       { }
-  #   it_must_equal_time('27 Nov at 13:25')                       { }
-  #   it_must_equal_time('2012-08-17 14:35:00 +0600')             { }
+  #   it_must_equal_time('today at 15:40')                 { }
+  #   it_must_equal_time('last sunday at 08:43:21 -0300')  { }
+  #   it_must_equal_time('yesterday at beginning')         { }
+  #   it_must_equal_time('next friday at beginning -0100') { }
+  #   it_must_equal_time('beginning of year at end')       { }
+  #   it_must_equal_time('14 May 2011 at end -0400')       { }
+  #   it_must_equal_time('27 Nov at 13:25')                { }
+  #   it_must_equal_time('2012-08-17 14:35:00 +0600')      { }
   # end
 
   # describe 'Combined (interval before/from data and time)' do

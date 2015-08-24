@@ -71,13 +71,14 @@ describe NaturalTimeLanguage do
     it_must_equal_time('1980-04-21T08:15:03-0500')       { '1980-04-21 08:15:03 -0500' }
   end
 
-  # describe 'Before/After moment' do
-  #   it_must_equal_time('3 days before yesterday')                 { }
-  #   it_must_equal_time('1 month from today')                      { }
-  #   it_must_equal_time('1 week from last monday at 08:30 -0400')  { }
-  #   it_must_equal_time('5 days before next friday at end of day') { }
-  #   it_must_equal_time('1 month before beginning of month')       { }
-  #   it_must_equal_time('1 year before 9 Sep')                     { }
-  # end
+  describe 'Before/After moment' do
+    it_must_equal_time('15 minutes from now')                     { TimeInZone.now + Interval.minutes(15) }
+    it_must_equal_time('3 days before yesterday')                 { "2015-08-16 00:00:00 #{local_offset}" }
+    it_must_equal_time('1 month from today')                      { "2015-09-20 00:00:00 #{local_offset}" }
+    it_must_equal_time('1 week from last monday at 08:30 -0400')  { '2015-08-24 08:30:00 -0400' }
+    it_must_equal_time('5 days before next friday at end')        { "2015-08-16 23:59:59 #{local_offset}" }
+    it_must_equal_time('1 month before beginning of month')       { "2015-07-01 00:00:00 #{local_offset}" }
+    it_must_equal_time('1 year before 9 Sep +0300')               { '2014-09-09 00:00:00 +0300' }
+  end
 
 end

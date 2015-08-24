@@ -80,7 +80,8 @@ module Timing
 
     class TimeAgo < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
-        interval_type.time_ago(number.value, zone_offset)
+        now = TimeInZone.now zone_offset
+        interval_type.time_ago now, number.value
       end
     end
 
@@ -110,6 +111,17 @@ module Timing
       end
     end
 
+    class BeforeFromMoment < Treetop::Runtime::SyntaxNode
+      def evaluate(zone_offset)
+        time = moment.evaluate zone_offset
+        if direction.before?
+          interval_type.time_ago time, number.value
+        else
+          interval_type.time_after time, number.value
+        end
+      end
+    end
+    
     class Timestamp < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
         TimeInZone.parse "#{text_value}#{zone_offset}"
@@ -136,9 +148,23 @@ module Timing
       end
     end
 
+    class BeforeFrom < Treetop::Runtime::SyntaxNode
+      def before?
+        text_value.downcase == 'before'
+      end
+
+      def from?
+        text_value.downcase == 'from'
+      end
+    end
+
     class SecondInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset) - Interval.seconds(number)
+      def time_ago(time, number)
+        time - Interval.seconds(number)
+      end
+
+      def time_after(time, number)
+        time + Interval.seconds(number)
       end
 
       def beginning_of(time)
@@ -151,8 +177,12 @@ module Timing
     end
 
     class MinuteInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset) - Interval.minutes(number)
+      def time_ago(time, number)
+        time - Interval.minutes(number)
+      end
+
+      def time_after(time, number)
+        time + Interval.minutes(number)
       end
 
       def beginning_of(time)
@@ -165,8 +195,12 @@ module Timing
     end
 
     class HourInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset) - Interval.hours(number)
+      def time_ago(time, number)
+        time - Interval.hours(number)
+      end
+
+      def time_after(time, number)
+        time + Interval.hours(number)
       end
 
       def beginning_of(time)
@@ -179,8 +213,12 @@ module Timing
     end    
 
     class DayInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset) - Interval.days(number)
+      def time_ago(time, number)
+        time - Interval.days(number)
+      end
+
+      def time_after(time, number)
+        time + Interval.days(number)
       end
 
       def beginning_of(time)
@@ -193,8 +231,12 @@ module Timing
     end
 
     class WeekInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset) - Interval.weeks(number)
+      def time_ago(time, number)
+        time - Interval.weeks(number)
+      end
+
+      def time_after(time, number)
+        time + Interval.weeks(number)
       end
 
       def beginning_of(time)
@@ -207,8 +249,12 @@ module Timing
     end
 
     class MonthInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset).months_ago(number)
+      def time_ago(time, number)
+        time.months_ago(number)
+      end
+
+      def time_after(time, number)
+        time.months_after(number)
       end
 
       def beginning_of(time)
@@ -221,8 +267,12 @@ module Timing
     end
 
     class YearInterval < Treetop::Runtime::SyntaxNode
-      def time_ago(number, zone_offset)
-        TimeInZone.now(zone_offset).years_ago(number)
+      def time_ago(time, number)
+        time.years_ago(number)
+      end
+
+      def time_after(time, number)
+        time.years_after(number)
       end
 
       def beginning_of(time)

@@ -6,7 +6,11 @@ module Timing
     end
 
     rule moment
-      timestamp / moment_at_time / date_moment
+      timestamp /
+      time_ago /
+      moment_at_time /
+      before_from_moment /
+      date_moment
     end
 
     rule date_moment
@@ -14,8 +18,7 @@ module Timing
       last_next_day_name / 
       day_month_name_year / 
       year_month_day /
-      beginning_end_interval /
-      time_ago
+      beginning_end_interval
     end
 
     rule named_moment
@@ -44,6 +47,10 @@ module Timing
 
     rule moment_at_time
       moment:date_moment space* 'at'i space* time:hour_minute_second <MomentAtTime>
+    end
+
+    rule before_from_moment
+      number:integer space* interval_type:interval space* direction:before_from space* moment:moment <BeforeFromMoment>
     end
 
     rule timestamp
@@ -90,8 +97,16 @@ module Timing
       direction:'end'i space* 'of'i <BeginningEnd>
     end
 
-    rule day_name
-      long_day_name / short_day_name
+    rule before_from
+      before / from
+    end
+
+    rule before
+      'before'i <BeforeFrom>
+    end
+
+    rule from
+      'from'i <BeforeFrom>
     end
 
     rule interval
@@ -130,6 +145,10 @@ module Timing
 
     rule year_interval
       'year'i 's'i?  <YearInterval>
+    end
+
+    rule day_name
+      long_day_name / short_day_name
     end
 
     rule long_day_name

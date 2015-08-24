@@ -112,18 +112,30 @@ module Timing
         r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        r2 = _nt_moment_at_time
+        r2 = _nt_time_ago
         if r2
           r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
-          r3 = _nt_date_moment
+          r3 = _nt_moment_at_time
           if r3
             r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
-            @index = i0
-            r0 = nil
+            r4 = _nt_before_from_moment
+            if r4
+              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
+              r0 = r4
+            else
+              r5 = _nt_date_moment
+              if r5
+                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
+                r0 = r5
+              else
+                @index = i0
+                r0 = nil
+              end
+            end
           end
         end
       end
@@ -170,14 +182,8 @@ module Timing
                 r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
-                r6 = _nt_time_ago
-                if r6
-                  r6 = SyntaxNode.new(input, (index-1)...index) if r6 == true
-                  r0 = r6
-                else
-                  @index = i0
-                  r0 = nil
-                end
+                @index = i0
+                r0 = nil
               end
             end
           end
@@ -655,6 +661,102 @@ module Timing
       end
 
       node_cache[:moment_at_time][start_index] = r0
+
+      r0
+    end
+
+    module BeforeFromMoment0
+      def number
+        elements[0]
+      end
+
+      def interval_type
+        elements[2]
+      end
+
+      def direction
+        elements[4]
+      end
+
+      def moment
+        elements[6]
+      end
+    end
+
+    def _nt_before_from_moment
+      start_index = index
+      if node_cache[:before_from_moment].has_key?(index)
+        cached = node_cache[:before_from_moment][index]
+        if cached
+          node_cache[:before_from_moment][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      i0, s0 = index, []
+      r1 = _nt_integer
+      s0 << r1
+      if r1
+        s2, i2 = [], index
+        loop do
+          r3 = _nt_space
+          if r3
+            s2 << r3
+          else
+            break
+          end
+        end
+        r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
+        s0 << r2
+        if r2
+          r4 = _nt_interval
+          s0 << r4
+          if r4
+            s5, i5 = [], index
+            loop do
+              r6 = _nt_space
+              if r6
+                s5 << r6
+              else
+                break
+              end
+            end
+            r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
+            s0 << r5
+            if r5
+              r7 = _nt_before_from
+              s0 << r7
+              if r7
+                s8, i8 = [], index
+                loop do
+                  r9 = _nt_space
+                  if r9
+                    s8 << r9
+                  else
+                    break
+                  end
+                end
+                r8 = instantiate_node(SyntaxNode,input, i8...index, s8)
+                s0 << r8
+                if r8
+                  r10 = _nt_moment
+                  s0 << r10
+                end
+              end
+            end
+          end
+        end
+      end
+      if s0.last
+        r0 = instantiate_node(BeforeFromMoment,input, i0...index, s0)
+        r0.extend(BeforeFromMoment0)
+      else
+        @index = i0
+        r0 = nil
+      end
+
+      node_cache[:before_from_moment][start_index] = r0
 
       r0
     end
@@ -1280,24 +1382,24 @@ module Timing
       r0
     end
 
-    def _nt_day_name
+    def _nt_before_from
       start_index = index
-      if node_cache[:day_name].has_key?(index)
-        cached = node_cache[:day_name][index]
+      if node_cache[:before_from].has_key?(index)
+        cached = node_cache[:before_from][index]
         if cached
-          node_cache[:day_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          node_cache[:before_from][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0 = index
-      r1 = _nt_long_day_name
+      r1 = _nt_before
       if r1
         r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        r2 = _nt_short_day_name
+        r2 = _nt_from
         if r2
           r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
@@ -1307,7 +1409,55 @@ module Timing
         end
       end
 
-      node_cache[:day_name][start_index] = r0
+      node_cache[:before_from][start_index] = r0
+
+      r0
+    end
+
+    def _nt_before
+      start_index = index
+      if node_cache[:before].has_key?(index)
+        cached = node_cache[:before][index]
+        if cached
+          node_cache[:before][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      if (match_len = has_terminal?('before', :insens, index))
+        r0 = instantiate_node(BeforeFrom,input, index...(index + match_len))
+        @index += match_len
+      else
+        terminal_parse_failure('\'before\'')
+        r0 = nil
+      end
+
+      node_cache[:before][start_index] = r0
+
+      r0
+    end
+
+    def _nt_from
+      start_index = index
+      if node_cache[:from].has_key?(index)
+        cached = node_cache[:from][index]
+        if cached
+          node_cache[:from][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      if (match_len = has_terminal?('from', :insens, index))
+        r0 = instantiate_node(BeforeFrom,input, index...(index + match_len))
+        @index += match_len
+      else
+        terminal_parse_failure('\'from\'')
+        r0 = nil
+      end
+
+      node_cache[:from][start_index] = r0
 
       r0
     end
@@ -1727,6 +1877,38 @@ module Timing
       end
 
       node_cache[:year_interval][start_index] = r0
+
+      r0
+    end
+
+    def _nt_day_name
+      start_index = index
+      if node_cache[:day_name].has_key?(index)
+        cached = node_cache[:day_name][index]
+        if cached
+          node_cache[:day_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      i0 = index
+      r1 = _nt_long_day_name
+      if r1
+        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
+        r0 = r1
+      else
+        r2 = _nt_short_day_name
+        if r2
+          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
+          r0 = r2
+        else
+          @index = i0
+          r0 = nil
+        end
+      end
+
+      node_cache[:day_name][start_index] = r0
 
       r0
     end

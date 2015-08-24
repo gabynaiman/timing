@@ -10,6 +10,10 @@ describe ZoneOffset do
     ZoneOffset.new(offset_hours * (60 * 60)).to_s.must_equal expected_text
   end
 
+  def assert_iso8601(offset_hours, expected_text)
+    ZoneOffset.new(offset_hours * (60 * 60)).iso8601.must_equal expected_text
+  end
+
   it 'Parsing' do
     assert_parsed_hours '-03:00', -3.0
     assert_parsed_hours '+05:00',  5.0
@@ -27,6 +31,14 @@ describe ZoneOffset do
     assert_to_string  3.5, '+0330'
     assert_to_string -2.5, '-0230'
     assert_to_string  0.0, '+0000'
+  end
+
+  it 'ISO 8601' do
+    assert_iso8601 -1.0, '-01:00'
+    assert_iso8601  6.0, '+06:00'
+    assert_iso8601  3.5, '+03:30'
+    assert_iso8601 -2.5, '-02:30'
+    assert_iso8601  0.0, '+00:00'
   end
 
   it 'Inspect' do

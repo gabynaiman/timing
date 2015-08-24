@@ -118,14 +118,26 @@ describe TimeInZone do
 
   end
 
-  describe 'To string' do
+  describe 'Serialization' do
 
-    it 'Default' do
+    it 'To string' do
       TimeInZone.new(time).to_s.must_equal time.to_s
     end
 
     it 'Formatted' do
       TimeInZone.new(time).strftime('%d/%m/%y').must_equal time.strftime('%d/%m/%y')
+    end
+
+    it 'ISO 8601' do
+      TimeInZone.new(time).iso8601.must_equal time.iso8601
+    end
+
+    it 'As json' do
+      TimeInZone.new(time).as_json.must_equal time.iso8601
+    end
+
+    it 'To json' do
+      TimeInZone.new(time).to_json.must_equal "\"#{time.iso8601}\""
     end
 
   end

@@ -9,11 +9,11 @@ module Timing
     end
 
     def to_s
-      hours = Interval.new(to_f).to_hours.to_i
-      minutes = Interval.new(to_f % Interval.hours(1)).to_minutes.to_i
-      sign = self < 0 ? '-' : '+'
+      "#{sign}#{hour.to_s.rjust(2, '0')}#{minute.to_s.rjust(2, '0')}"
+    end
 
-      "#{sign}#{hours.to_s.rjust(2, '0')}#{minutes.to_s.rjust(2, '0')}"
+    def iso8601
+      "#{sign}#{hour.to_s.rjust(2, '0')}:#{minute.to_s.rjust(2, '0')}"
     end
 
     def inspect
@@ -30,6 +30,20 @@ module Timing
       minutes = match.captures[2].to_i
 
       new (Interval.hours(hours) + Interval.minutes(minutes)) * sign
+    end
+
+    private
+
+    def hour
+      Interval.new(to_f).to_hours.to_i
+    end
+
+    def minute
+      Interval.new(to_f % Interval.hours(1)).to_minutes.to_i
+    end
+
+    def sign
+      self < 0 ? '-' : '+'
     end
 
   end

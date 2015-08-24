@@ -5,7 +5,7 @@ module Timing
 
     REGEXP = /[+-]\d\d:?\d\d/
 
-    def_delegators :time, :to_i, :to_f, :to_date, :to_datetime, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash, :iso8601
+    def_delegators :time, :to_i, :to_f, :to_date, :to_datetime, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash
     def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec, :wday, :yday
 
     attr_reader :zone_offset
@@ -59,6 +59,18 @@ module Timing
 
     def strftime(format)
       time_with_offset.strftime format.gsub('%Z', '').gsub('%z', zone_offset.to_s)
+    end
+
+    def iso8601
+      strftime "%FT%T#{zone_offset.iso8601}"
+    end
+
+    def as_json(*args)
+      iso8601
+    end
+
+    def to_json(*args)
+      "\"#{as_json(*args)}\""
     end
 
     %w(hour day week month year).each do |interval|

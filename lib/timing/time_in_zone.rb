@@ -74,8 +74,16 @@ module Timing
       Timing.months_ago self, count
     end
 
+    def months_after(count)
+      Timing.months_after self, count
+    end
+
     def years_ago(count)
       Timing.years_ago self, count
+    end
+
+    def years_after(count)
+      Timing.years_after self, count
     end
 
     def self.now(zone_offset=nil)

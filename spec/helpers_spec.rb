@@ -54,8 +54,17 @@ describe Helpers do
     Timing.months_ago(time, 21).to_time.must_equal Time.parse('2013-11-10 02:11:38 +0700')
   end
 
+  it 'Months after' do
+    Timing.months_after(time, 2).to_time.must_equal Time.parse('2015-10-10 02:11:38 +0700')
+    Timing.months_after(time, 18).to_time.must_equal Time.parse('2017-02-10 02:11:38 +0700')
+  end
+
   it 'Years ago' do
     Timing.years_ago(time, 4).to_time.must_equal Time.parse('2011-08-10 02:11:38 +0700')
+  end
+
+  it 'Years ago' do
+    Timing.years_after(time, 5).to_time.must_equal Time.parse('2020-08-10 02:11:38 +0700')
   end
 
 end

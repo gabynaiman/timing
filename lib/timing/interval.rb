@@ -64,7 +64,7 @@ module Timing
     end
 
     def self.between(time_1, time_2)
-      new(time_1 - time_2)
+      new (time_1 - time_2).round
     end
 
   end

@@ -5,7 +5,7 @@ module Timing
 
     REGEXP = /[+-]\d\d:?\d\d/
 
-    def_delegators :time, :to_i, :to_f, :to_date, :to_datetime, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash
+    def_delegators :time, :to_i, :to_f, :to_date, :to_datetime, :<, :<=, :==, :>, :>=, :between?, :eql?, :hash, :iso8601
     def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec, :wday, :yday
 
     attr_reader :zone_offset

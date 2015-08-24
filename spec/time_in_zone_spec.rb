@@ -144,6 +144,12 @@ describe TimeInZone do
       tz.to_f.must_equal time.to_f - 23
     end
 
+    it 'Time - time' do
+      diff = TimeInZone.new(time) - TimeInZone.new(time - 10)
+      diff.must_be_kind_of Numeric
+      diff.must_equal 10
+    end
+
   end
 
 

@@ -312,7 +312,7 @@ module Timing
 
     class ZoneOffset < Treetop::Runtime::SyntaxNode
       def value
-        ::ZoneOffset.parse text_value
+        Timing::ZoneOffset.parse text_value
       end
     end
 

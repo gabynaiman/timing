@@ -103,6 +103,19 @@ module Timing
       end
     end
 
+    class MomentAtTime < Treetop::Runtime::SyntaxNode
+      def evaluate(zone_offset)
+        date = moment.evaluate zone_offset
+        TimeInZone.parse "#{date.strftime('%F')} #{time.value} #{date.zone_offset}"
+      end
+    end
+
+    class Timestamp < Treetop::Runtime::SyntaxNode
+      def evaluate(zone_offset)
+        TimeInZone.parse "#{text_value}#{zone_offset}"
+      end
+    end
+
     class BeginningEnd < Treetop::Runtime::SyntaxNode
       def beginning?
         direction.text_value.downcase == 'beginning'
@@ -232,6 +245,18 @@ module Timing
       SHORT_NAMES = ['', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
       def value
         SHORT_NAMES.index text_value[0..2].downcase
+      end
+    end
+
+    class HourMinuteSecond < Treetop::Runtime::SyntaxNode
+      def value
+        if text_value.downcase == 'beginning'
+          '00:00:00'
+        elsif text_value.downcase == 'end'
+          '23:59:59'
+        else
+          "#{text_value}:00"[0..7]
+        end
       end
     end
 

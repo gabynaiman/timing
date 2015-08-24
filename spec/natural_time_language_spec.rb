@@ -58,18 +58,20 @@ describe NaturalTimeLanguage do
     it_must_equal_time('7 years ago -0700')   { '2008-08-19 22:30:46 -0700' }
   end
 
-  # describe 'Date and time' do
-  #   it_must_equal_time('today at 15:40')                 { }
-  #   it_must_equal_time('last sunday at 08:43:21 -0300')  { }
-  #   it_must_equal_time('yesterday at beginning')         { }
-  #   it_must_equal_time('next friday at beginning -0100') { }
-  #   it_must_equal_time('beginning of year at end')       { }
-  #   it_must_equal_time('14 May 2011 at end -0400')       { }
-  #   it_must_equal_time('27 Nov at 13:25')                { }
-  #   it_must_equal_time('2012-08-17 14:35:00 +0600')      { }
-  # end
+  describe 'Date at time' do
+    it_must_equal_time('today at 15:40')                 { "2015-08-20 15:40:00 #{local_offset}" }
+    it_must_equal_time('last sunday at 08:43:21 -0300')  { '2015-08-16 08:43:21 -0300' }
+    it_must_equal_time('yesterday at beginning')         { "2015-08-19 00:00:00 #{local_offset}" }
+    it_must_equal_time('next friday at beginning -0100') { '2015-08-21 00:00:00 -0100' }
+    it_must_equal_time('beginning of year at end')       { "2015-01-01 23:59:59 #{local_offset}" }
+    it_must_equal_time('14 May 2011 at end -0400')       { '2011-05-14 23:59:59 -0400' }
+    it_must_equal_time('25 Nov at 13:25')                { "2015-11-25 13:25:00 #{local_offset}" }
+    it_must_equal_time('2001-07-14 at 18:41')            { "2001-07-14 18:41:00 #{local_offset}" }
+    it_must_equal_time('2012-08-17 14:35:20')            { "2012-08-17 14:35:20 #{local_offset}" }
+    it_must_equal_time('1980-04-21T08:15:03-0500')       { '1980-04-21 08:15:03 -0500' }
+  end
 
-  # describe 'Combined (interval before/from data and time)' do
+  # describe 'Before/After moment' do
   #   it_must_equal_time('3 days before yesterday')                 { }
   #   it_must_equal_time('1 month from today')                      { }
   #   it_must_equal_time('1 week from last monday at 08:30 -0400')  { }

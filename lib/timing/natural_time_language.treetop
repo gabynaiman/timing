@@ -6,6 +6,10 @@ module Timing
     end
 
     rule moment
+      timestamp / moment_at_time / date_moment
+    end
+
+    rule date_moment
       named_moment / 
       last_next_day_name / 
       day_month_name_year / 
@@ -36,6 +40,14 @@ module Timing
 
     rule time_ago
       number:integer space* interval_type:interval space* 'ago'i <TimeAgo>
+    end
+
+    rule moment_at_time
+      moment:date_moment space* 'at'i space* time:hour_minute_second <MomentAtTime>
+    end
+
+    rule timestamp
+      [\d]4..4 '-' [\d]2..2 '-' [\d]2..2 space* 'T'? space* [\d]2..2 ':' [\d]2..2 ':' [\d]2..2 <Timestamp>
     end
 
     rule now
@@ -176,6 +188,12 @@ module Timing
 
     rule zone_offset
       [+-] [\d]2..2 ':'? [\d]2..2 <ZoneOffset>
+    end
+
+    rule hour_minute_second
+      [\d]2..2 ':' [\d]2..2 (':' [\d]2..2)? <HourMinuteSecond> /
+      'beginning' <HourMinuteSecond> /
+      'end' <HourMinuteSecond>
     end
 
     rule integer

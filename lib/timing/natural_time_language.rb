@@ -107,6 +107,44 @@ module Timing
       end
 
       i0 = index
+      r1 = _nt_timestamp
+      if r1
+        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
+        r0 = r1
+      else
+        r2 = _nt_moment_at_time
+        if r2
+          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
+          r0 = r2
+        else
+          r3 = _nt_date_moment
+          if r3
+            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
+            r0 = r3
+          else
+            @index = i0
+            r0 = nil
+          end
+        end
+      end
+
+      node_cache[:moment][start_index] = r0
+
+      r0
+    end
+
+    def _nt_date_moment
+      start_index = index
+      if node_cache[:date_moment].has_key?(index)
+        cached = node_cache[:date_moment][index]
+        if cached
+          node_cache[:date_moment][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      i0 = index
       r1 = _nt_named_moment
       if r1
         r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
@@ -146,7 +184,7 @@ module Timing
         end
       end
 
-      node_cache[:moment][start_index] = r0
+      node_cache[:date_moment][start_index] = r0
 
       r0
     end
@@ -540,6 +578,370 @@ module Timing
       end
 
       node_cache[:time_ago][start_index] = r0
+
+      r0
+    end
+
+    module MomentAtTime0
+      def moment
+        elements[0]
+      end
+
+      def time
+        elements[4]
+      end
+    end
+
+    def _nt_moment_at_time
+      start_index = index
+      if node_cache[:moment_at_time].has_key?(index)
+        cached = node_cache[:moment_at_time][index]
+        if cached
+          node_cache[:moment_at_time][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      i0, s0 = index, []
+      r1 = _nt_date_moment
+      s0 << r1
+      if r1
+        s2, i2 = [], index
+        loop do
+          r3 = _nt_space
+          if r3
+            s2 << r3
+          else
+            break
+          end
+        end
+        r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
+        s0 << r2
+        if r2
+          if (match_len = has_terminal?('at', :insens, index))
+            r4 = instantiate_node(SyntaxNode,input, index...(index + match_len))
+            @index += match_len
+          else
+            terminal_parse_failure('\'at\'')
+            r4 = nil
+          end
+          s0 << r4
+          if r4
+            s5, i5 = [], index
+            loop do
+              r6 = _nt_space
+              if r6
+                s5 << r6
+              else
+                break
+              end
+            end
+            r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
+            s0 << r5
+            if r5
+              r7 = _nt_hour_minute_second
+              s0 << r7
+            end
+          end
+        end
+      end
+      if s0.last
+        r0 = instantiate_node(MomentAtTime,input, i0...index, s0)
+        r0.extend(MomentAtTime0)
+      else
+        @index = i0
+        r0 = nil
+      end
+
+      node_cache[:moment_at_time][start_index] = r0
+
+      r0
+    end
+
+    module Timestamp0
+    end
+
+    def _nt_timestamp
+      start_index = index
+      if node_cache[:timestamp].has_key?(index)
+        cached = node_cache[:timestamp][index]
+        if cached
+          node_cache[:timestamp][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      i0, s0 = index, []
+      s1, i1 = [], index
+      loop do
+        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+          r2 = true
+          @index += 1
+        else
+          terminal_parse_failure('[\\d]')
+          r2 = nil
+        end
+        if r2
+          s1 << r2
+        else
+          break
+        end
+        if s1.size == 4
+          break
+        end
+      end
+      if s1.size < 4
+        @index = i1
+        r1 = nil
+      else
+        if s1.size < 4
+          terminal_failures.pop
+        end
+        r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
+      end
+      s0 << r1
+      if r1
+        if (match_len = has_terminal?('-', false, index))
+          r3 = true
+          @index += match_len
+        else
+          terminal_parse_failure('\'-\'')
+          r3 = nil
+        end
+        s0 << r3
+        if r3
+          s4, i4 = [], index
+          loop do
+            if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+              r5 = true
+              @index += 1
+            else
+              terminal_parse_failure('[\\d]')
+              r5 = nil
+            end
+            if r5
+              s4 << r5
+            else
+              break
+            end
+            if s4.size == 2
+              break
+            end
+          end
+          if s4.size < 2
+            @index = i4
+            r4 = nil
+          else
+            if s4.size < 2
+              terminal_failures.pop
+            end
+            r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
+          end
+          s0 << r4
+          if r4
+            if (match_len = has_terminal?('-', false, index))
+              r6 = true
+              @index += match_len
+            else
+              terminal_parse_failure('\'-\'')
+              r6 = nil
+            end
+            s0 << r6
+            if r6
+              s7, i7 = [], index
+              loop do
+                if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                  r8 = true
+                  @index += 1
+                else
+                  terminal_parse_failure('[\\d]')
+                  r8 = nil
+                end
+                if r8
+                  s7 << r8
+                else
+                  break
+                end
+                if s7.size == 2
+                  break
+                end
+              end
+              if s7.size < 2
+                @index = i7
+                r7 = nil
+              else
+                if s7.size < 2
+                  terminal_failures.pop
+                end
+                r7 = instantiate_node(SyntaxNode,input, i7...index, s7)
+              end
+              s0 << r7
+              if r7
+                s9, i9 = [], index
+                loop do
+                  r10 = _nt_space
+                  if r10
+                    s9 << r10
+                  else
+                    break
+                  end
+                end
+                r9 = instantiate_node(SyntaxNode,input, i9...index, s9)
+                s0 << r9
+                if r9
+                  if (match_len = has_terminal?('T', false, index))
+                    r12 = true
+                    @index += match_len
+                  else
+                    terminal_parse_failure('\'T\'')
+                    r12 = nil
+                  end
+                  if r12
+                    r11 = r12
+                  else
+                    r11 = instantiate_node(SyntaxNode,input, index...index)
+                  end
+                  s0 << r11
+                  if r11
+                    s13, i13 = [], index
+                    loop do
+                      r14 = _nt_space
+                      if r14
+                        s13 << r14
+                      else
+                        break
+                      end
+                    end
+                    r13 = instantiate_node(SyntaxNode,input, i13...index, s13)
+                    s0 << r13
+                    if r13
+                      s15, i15 = [], index
+                      loop do
+                        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                          r16 = true
+                          @index += 1
+                        else
+                          terminal_parse_failure('[\\d]')
+                          r16 = nil
+                        end
+                        if r16
+                          s15 << r16
+                        else
+                          break
+                        end
+                        if s15.size == 2
+                          break
+                        end
+                      end
+                      if s15.size < 2
+                        @index = i15
+                        r15 = nil
+                      else
+                        if s15.size < 2
+                          terminal_failures.pop
+                        end
+                        r15 = instantiate_node(SyntaxNode,input, i15...index, s15)
+                      end
+                      s0 << r15
+                      if r15
+                        if (match_len = has_terminal?(':', false, index))
+                          r17 = true
+                          @index += match_len
+                        else
+                          terminal_parse_failure('\':\'')
+                          r17 = nil
+                        end
+                        s0 << r17
+                        if r17
+                          s18, i18 = [], index
+                          loop do
+                            if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                              r19 = true
+                              @index += 1
+                            else
+                              terminal_parse_failure('[\\d]')
+                              r19 = nil
+                            end
+                            if r19
+                              s18 << r19
+                            else
+                              break
+                            end
+                            if s18.size == 2
+                              break
+                            end
+                          end
+                          if s18.size < 2
+                            @index = i18
+                            r18 = nil
+                          else
+                            if s18.size < 2
+                              terminal_failures.pop
+                            end
+                            r18 = instantiate_node(SyntaxNode,input, i18...index, s18)
+                          end
+                          s0 << r18
+                          if r18
+                            if (match_len = has_terminal?(':', false, index))
+                              r20 = true
+                              @index += match_len
+                            else
+                              terminal_parse_failure('\':\'')
+                              r20 = nil
+                            end
+                            s0 << r20
+                            if r20
+                              s21, i21 = [], index
+                              loop do
+                                if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                                  r22 = true
+                                  @index += 1
+                                else
+                                  terminal_parse_failure('[\\d]')
+                                  r22 = nil
+                                end
+                                if r22
+                                  s21 << r22
+                                else
+                                  break
+                                end
+                                if s21.size == 2
+                                  break
+                                end
+                              end
+                              if s21.size < 2
+                                @index = i21
+                                r21 = nil
+                              else
+                                if s21.size < 2
+                                  terminal_failures.pop
+                                end
+                                r21 = instantiate_node(SyntaxNode,input, i21...index, s21)
+                              end
+                              s0 << r21
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+      if s0.last
+        r0 = instantiate_node(Timestamp,input, i0...index, s0)
+        r0.extend(Timestamp0)
+      else
+        @index = i0
+        r0 = nil
+      end
+
+      node_cache[:timestamp][start_index] = r0
 
       r0
     end
@@ -2004,6 +2406,191 @@ module Timing
       end
 
       node_cache[:zone_offset][start_index] = r0
+
+      r0
+    end
+
+    module HourMinuteSecond0
+    end
+
+    module HourMinuteSecond1
+    end
+
+    def _nt_hour_minute_second
+      start_index = index
+      if node_cache[:hour_minute_second].has_key?(index)
+        cached = node_cache[:hour_minute_second][index]
+        if cached
+          node_cache[:hour_minute_second][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          @index = cached.interval.end
+        end
+        return cached
+      end
+
+      i0 = index
+      i1, s1 = index, []
+      s2, i2 = [], index
+      loop do
+        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+          r3 = true
+          @index += 1
+        else
+          terminal_parse_failure('[\\d]')
+          r3 = nil
+        end
+        if r3
+          s2 << r3
+        else
+          break
+        end
+        if s2.size == 2
+          break
+        end
+      end
+      if s2.size < 2
+        @index = i2
+        r2 = nil
+      else
+        if s2.size < 2
+          terminal_failures.pop
+        end
+        r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
+      end
+      s1 << r2
+      if r2
+        if (match_len = has_terminal?(':', false, index))
+          r4 = true
+          @index += match_len
+        else
+          terminal_parse_failure('\':\'')
+          r4 = nil
+        end
+        s1 << r4
+        if r4
+          s5, i5 = [], index
+          loop do
+            if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+              r6 = true
+              @index += 1
+            else
+              terminal_parse_failure('[\\d]')
+              r6 = nil
+            end
+            if r6
+              s5 << r6
+            else
+              break
+            end
+            if s5.size == 2
+              break
+            end
+          end
+          if s5.size < 2
+            @index = i5
+            r5 = nil
+          else
+            if s5.size < 2
+              terminal_failures.pop
+            end
+            r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
+          end
+          s1 << r5
+          if r5
+            i8, s8 = index, []
+            if (match_len = has_terminal?(':', false, index))
+              r9 = true
+              @index += match_len
+            else
+              terminal_parse_failure('\':\'')
+              r9 = nil
+            end
+            s8 << r9
+            if r9
+              s10, i10 = [], index
+              loop do
+                if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                  r11 = true
+                  @index += 1
+                else
+                  terminal_parse_failure('[\\d]')
+                  r11 = nil
+                end
+                if r11
+                  s10 << r11
+                else
+                  break
+                end
+                if s10.size == 2
+                  break
+                end
+              end
+              if s10.size < 2
+                @index = i10
+                r10 = nil
+              else
+                if s10.size < 2
+                  terminal_failures.pop
+                end
+                r10 = instantiate_node(SyntaxNode,input, i10...index, s10)
+              end
+              s8 << r10
+            end
+            if s8.last
+              r8 = instantiate_node(SyntaxNode,input, i8...index, s8)
+              r8.extend(HourMinuteSecond0)
+            else
+              @index = i8
+              r8 = nil
+            end
+            if r8
+              r7 = r8
+            else
+              r7 = instantiate_node(SyntaxNode,input, index...index)
+            end
+            s1 << r7
+          end
+        end
+      end
+      if s1.last
+        r1 = instantiate_node(HourMinuteSecond,input, i1...index, s1)
+        r1.extend(HourMinuteSecond1)
+      else
+        @index = i1
+        r1 = nil
+      end
+      if r1
+        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
+        r0 = r1
+      else
+        if (match_len = has_terminal?('beginning', false, index))
+          r12 = instantiate_node(HourMinuteSecond,input, index...(index + match_len))
+          @index += match_len
+        else
+          terminal_parse_failure('\'beginning\'')
+          r12 = nil
+        end
+        if r12
+          r12 = SyntaxNode.new(input, (index-1)...index) if r12 == true
+          r0 = r12
+        else
+          if (match_len = has_terminal?('end', false, index))
+            r13 = instantiate_node(HourMinuteSecond,input, index...(index + match_len))
+            @index += match_len
+          else
+            terminal_parse_failure('\'end\'')
+            r13 = nil
+          end
+          if r13
+            r13 = SyntaxNode.new(input, (index-1)...index) if r13 == true
+            r0 = r13
+          else
+            @index = i0
+            r0 = nil
+          end
+        end
+      end
+
+      node_cache[:hour_minute_second][start_index] = r0
 
       r0
     end

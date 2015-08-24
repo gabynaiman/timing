@@ -24,11 +24,14 @@ module Timing
     alias_method :gmtoff,     :zone_offset
 
     def +(seconds)
+      raise ArgumentError, "#{seconds} must be a valid seconds count" unless seconds.is_a? Numeric
       self.class.new (time + seconds), zone_offset
     end
 
     def -(seconds)
-      self.class.new (time - seconds), zone_offset
+      raise ArgumentError, "#{seconds} must be a time or a valid seconds count" unless seconds.respond_to? :to_f
+      result = self.class.at (time.to_f - seconds.to_f), zone_offset
+      seconds.is_a?(Numeric) ? result : result.to_f
     end
 
     def utc?

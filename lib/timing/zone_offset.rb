@@ -1,5 +1,5 @@
 module Timing
-  class ZoneOffset < SimpleDelegator
+  class ZoneOffset < TransparentProxy
 
     REGEXP = /^([+-]?)(\d\d):?(\d\d)$/
 

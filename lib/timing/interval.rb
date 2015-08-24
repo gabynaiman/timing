@@ -1,5 +1,5 @@
 module Timing
-  class Interval < SimpleDelegator
+  class Interval < TransparentProxy
     
     UNITS_NAMES = {
       s: :seconds,
@@ -64,7 +64,7 @@ module Timing
     end
 
     def self.between(time_1, time_2)
-      new (time_1 - time_2).round
+      new(time_1 - time_2)
     end
 
   end

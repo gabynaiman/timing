@@ -1,6 +1,6 @@
 require 'time'
 require 'date'
-require 'delegate'
+require 'transparent_proxy'
 require 'forwardable'
 require 'treetop'
 

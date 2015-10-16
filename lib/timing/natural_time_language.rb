@@ -25,7 +25,7 @@ module Timing
       if node_cache[:expression].has_key?(index)
         cached = node_cache[:expression][index]
         if cached
-          node_cache[:expression][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -100,7 +100,7 @@ module Timing
       if node_cache[:moment].has_key?(index)
         cached = node_cache[:moment][index]
         if cached
-          node_cache[:moment][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -109,27 +109,22 @@ module Timing
       i0 = index
       r1 = _nt_timestamp
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_time_ago
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           r3 = _nt_moment_at_time
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
             r4 = _nt_before_from_moment
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
               r5 = _nt_date_moment
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
                 @index = i0
@@ -150,7 +145,7 @@ module Timing
       if node_cache[:date_moment].has_key?(index)
         cached = node_cache[:date_moment][index]
         if cached
-          node_cache[:date_moment][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -159,27 +154,22 @@ module Timing
       i0 = index
       r1 = _nt_named_moment
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_last_next_day_name
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           r3 = _nt_day_month_name_year
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
             r4 = _nt_year_month_day
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
               r5 = _nt_beginning_end_interval
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
                 @index = i0
@@ -200,7 +190,7 @@ module Timing
       if node_cache[:named_moment].has_key?(index)
         cached = node_cache[:named_moment][index]
         if cached
-          node_cache[:named_moment][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -209,22 +199,18 @@ module Timing
       i0 = index
       r1 = _nt_now
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_today
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           r3 = _nt_tomorrow
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
             r4 = _nt_yesterday
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
               @index = i0
@@ -254,7 +240,7 @@ module Timing
       if node_cache[:last_next_day_name].has_key?(index)
         cached = node_cache[:last_next_day_name][index]
         if cached
-          node_cache[:last_next_day_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -313,7 +299,7 @@ module Timing
       if node_cache[:day_month_name_year].has_key?(index)
         cached = node_cache[:day_month_name_year][index]
         if cached
-          node_cache[:day_month_name_year][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -406,7 +392,7 @@ module Timing
       if node_cache[:year_month_day].has_key?(index)
         cached = node_cache[:year_month_day][index]
         if cached
-          node_cache[:year_month_day][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -416,11 +402,11 @@ module Timing
       r1 = _nt_integer
       s0 << r1
       if r1
-        if (match_len = has_terminal?('-', false, index))
-          r2 = true
-          @index += match_len
+        if has_terminal?('-', false, index)
+          r2 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'-\'')
+          terminal_parse_failure('-')
           r2 = nil
         end
         s0 << r2
@@ -428,11 +414,11 @@ module Timing
           r3 = _nt_integer
           s0 << r3
           if r3
-            if (match_len = has_terminal?('-', false, index))
-              r4 = true
-              @index += match_len
+            if has_terminal?('-', false, index)
+              r4 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
             else
-              terminal_parse_failure('\'-\'')
+              terminal_parse_failure('-')
               r4 = nil
             end
             s0 << r4
@@ -471,7 +457,7 @@ module Timing
       if node_cache[:beginning_end_interval].has_key?(index)
         cached = node_cache[:beginning_end_interval][index]
         if cached
-          node_cache[:beginning_end_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -526,7 +512,7 @@ module Timing
       if node_cache[:time_ago].has_key?(index)
         cached = node_cache[:time_ago][index]
         if cached
-          node_cache[:time_ago][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -563,11 +549,11 @@ module Timing
             r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
             s0 << r5
             if r5
-              if (match_len = has_terminal?('ago', :insens, index))
-                r7 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-                @index += match_len
+              if has_terminal?('ago', false, index)
+                r7 = instantiate_node(SyntaxNode,input, index...(index + 3))
+                @index += 3
               else
-                terminal_parse_failure('\'ago\'')
+                terminal_parse_failure('ago')
                 r7 = nil
               end
               s0 << r7
@@ -603,7 +589,7 @@ module Timing
       if node_cache[:moment_at_time].has_key?(index)
         cached = node_cache[:moment_at_time][index]
         if cached
-          node_cache[:moment_at_time][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -625,11 +611,11 @@ module Timing
         r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
         s0 << r2
         if r2
-          if (match_len = has_terminal?('at', :insens, index))
-            r4 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('at', false, index)
+            r4 = instantiate_node(SyntaxNode,input, index...(index + 2))
+            @index += 2
           else
-            terminal_parse_failure('\'at\'')
+            terminal_parse_failure('at')
             r4 = nil
           end
           s0 << r4
@@ -688,7 +674,7 @@ module Timing
       if node_cache[:before_from_moment].has_key?(index)
         cached = node_cache[:before_from_moment][index]
         if cached
-          node_cache[:before_from_moment][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -769,7 +755,7 @@ module Timing
       if node_cache[:timestamp].has_key?(index)
         cached = node_cache[:timestamp][index]
         if cached
-          node_cache[:timestamp][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -778,11 +764,10 @@ module Timing
       i0, s0 = index, []
       s1, i1 = [], index
       loop do
-        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+        if has_terminal?('\G[\\d]', true, index)
           r2 = true
           @index += 1
         else
-          terminal_parse_failure('[\\d]')
           r2 = nil
         end
         if r2
@@ -798,29 +783,25 @@ module Timing
         @index = i1
         r1 = nil
       else
-        if s1.size < 4
-          terminal_failures.pop
-        end
         r1 = instantiate_node(SyntaxNode,input, i1...index, s1)
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('-', false, index))
-          r3 = true
-          @index += match_len
+        if has_terminal?('-', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'-\'')
+          terminal_parse_failure('-')
           r3 = nil
         end
         s0 << r3
         if r3
           s4, i4 = [], index
           loop do
-            if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+            if has_terminal?('\G[\\d]', true, index)
               r5 = true
               @index += 1
             else
-              terminal_parse_failure('[\\d]')
               r5 = nil
             end
             if r5
@@ -836,29 +817,25 @@ module Timing
             @index = i4
             r4 = nil
           else
-            if s4.size < 2
-              terminal_failures.pop
-            end
             r4 = instantiate_node(SyntaxNode,input, i4...index, s4)
           end
           s0 << r4
           if r4
-            if (match_len = has_terminal?('-', false, index))
-              r6 = true
-              @index += match_len
+            if has_terminal?('-', false, index)
+              r6 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
             else
-              terminal_parse_failure('\'-\'')
+              terminal_parse_failure('-')
               r6 = nil
             end
             s0 << r6
             if r6
               s7, i7 = [], index
               loop do
-                if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                if has_terminal?('\G[\\d]', true, index)
                   r8 = true
                   @index += 1
                 else
-                  terminal_parse_failure('[\\d]')
                   r8 = nil
                 end
                 if r8
@@ -874,9 +851,6 @@ module Timing
                 @index = i7
                 r7 = nil
               else
-                if s7.size < 2
-                  terminal_failures.pop
-                end
                 r7 = instantiate_node(SyntaxNode,input, i7...index, s7)
               end
               s0 << r7
@@ -893,11 +867,11 @@ module Timing
                 r9 = instantiate_node(SyntaxNode,input, i9...index, s9)
                 s0 << r9
                 if r9
-                  if (match_len = has_terminal?('T', false, index))
-                    r12 = true
-                    @index += match_len
+                  if has_terminal?('t', false, index)
+                    r12 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                    @index += 1
                   else
-                    terminal_parse_failure('\'T\'')
+                    terminal_parse_failure('t')
                     r12 = nil
                   end
                   if r12
@@ -921,11 +895,10 @@ module Timing
                     if r13
                       s15, i15 = [], index
                       loop do
-                        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                        if has_terminal?('\G[\\d]', true, index)
                           r16 = true
                           @index += 1
                         else
-                          terminal_parse_failure('[\\d]')
                           r16 = nil
                         end
                         if r16
@@ -941,29 +914,25 @@ module Timing
                         @index = i15
                         r15 = nil
                       else
-                        if s15.size < 2
-                          terminal_failures.pop
-                        end
                         r15 = instantiate_node(SyntaxNode,input, i15...index, s15)
                       end
                       s0 << r15
                       if r15
-                        if (match_len = has_terminal?(':', false, index))
-                          r17 = true
-                          @index += match_len
+                        if has_terminal?(':', false, index)
+                          r17 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                          @index += 1
                         else
-                          terminal_parse_failure('\':\'')
+                          terminal_parse_failure(':')
                           r17 = nil
                         end
                         s0 << r17
                         if r17
                           s18, i18 = [], index
                           loop do
-                            if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                            if has_terminal?('\G[\\d]', true, index)
                               r19 = true
                               @index += 1
                             else
-                              terminal_parse_failure('[\\d]')
                               r19 = nil
                             end
                             if r19
@@ -979,29 +948,25 @@ module Timing
                             @index = i18
                             r18 = nil
                           else
-                            if s18.size < 2
-                              terminal_failures.pop
-                            end
                             r18 = instantiate_node(SyntaxNode,input, i18...index, s18)
                           end
                           s0 << r18
                           if r18
-                            if (match_len = has_terminal?(':', false, index))
-                              r20 = true
-                              @index += match_len
+                            if has_terminal?(':', false, index)
+                              r20 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                              @index += 1
                             else
-                              terminal_parse_failure('\':\'')
+                              terminal_parse_failure(':')
                               r20 = nil
                             end
                             s0 << r20
                             if r20
                               s21, i21 = [], index
                               loop do
-                                if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                                if has_terminal?('\G[\\d]', true, index)
                                   r22 = true
                                   @index += 1
                                 else
-                                  terminal_parse_failure('[\\d]')
                                   r22 = nil
                                 end
                                 if r22
@@ -1017,9 +982,6 @@ module Timing
                                 @index = i21
                                 r21 = nil
                               else
-                                if s21.size < 2
-                                  terminal_failures.pop
-                                end
                                 r21 = instantiate_node(SyntaxNode,input, i21...index, s21)
                               end
                               s0 << r21
@@ -1053,17 +1015,17 @@ module Timing
       if node_cache[:now].has_key?(index)
         cached = node_cache[:now][index]
         if cached
-          node_cache[:now][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('now', :insens, index))
-        r0 = instantiate_node(Now,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('now', false, index)
+        r0 = instantiate_node(Now,input, index...(index + 3))
+        @index += 3
       else
-        terminal_parse_failure('\'now\'')
+        terminal_parse_failure('now')
         r0 = nil
       end
 
@@ -1077,17 +1039,17 @@ module Timing
       if node_cache[:today].has_key?(index)
         cached = node_cache[:today][index]
         if cached
-          node_cache[:today][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('today', :insens, index))
-        r0 = instantiate_node(Today,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('today', false, index)
+        r0 = instantiate_node(Today,input, index...(index + 5))
+        @index += 5
       else
-        terminal_parse_failure('\'today\'')
+        terminal_parse_failure('today')
         r0 = nil
       end
 
@@ -1101,17 +1063,17 @@ module Timing
       if node_cache[:tomorrow].has_key?(index)
         cached = node_cache[:tomorrow][index]
         if cached
-          node_cache[:tomorrow][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('tomorrow', :insens, index))
-        r0 = instantiate_node(Tomorrow,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('tomorrow', false, index)
+        r0 = instantiate_node(Tomorrow,input, index...(index + 8))
+        @index += 8
       else
-        terminal_parse_failure('\'tomorrow\'')
+        terminal_parse_failure('tomorrow')
         r0 = nil
       end
 
@@ -1125,17 +1087,17 @@ module Timing
       if node_cache[:yesterday].has_key?(index)
         cached = node_cache[:yesterday][index]
         if cached
-          node_cache[:yesterday][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('yesterday', :insens, index))
-        r0 = instantiate_node(Yesterday,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('yesterday', false, index)
+        r0 = instantiate_node(Yesterday,input, index...(index + 9))
+        @index += 9
       else
-        terminal_parse_failure('\'yesterday\'')
+        terminal_parse_failure('yesterday')
         r0 = nil
       end
 
@@ -1149,7 +1111,7 @@ module Timing
       if node_cache[:last_next].has_key?(index)
         cached = node_cache[:last_next][index]
         if cached
-          node_cache[:last_next][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -1158,12 +1120,10 @@ module Timing
       i0 = index
       r1 = _nt_last
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_next
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           @index = i0
@@ -1181,17 +1141,17 @@ module Timing
       if node_cache[:last].has_key?(index)
         cached = node_cache[:last][index]
         if cached
-          node_cache[:last][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('last', :insens, index))
-        r0 = instantiate_node(LastNext,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('last', false, index)
+        r0 = instantiate_node(LastNext,input, index...(index + 4))
+        @index += 4
       else
-        terminal_parse_failure('\'last\'')
+        terminal_parse_failure('last')
         r0 = nil
       end
 
@@ -1205,17 +1165,17 @@ module Timing
       if node_cache[:next].has_key?(index)
         cached = node_cache[:next][index]
         if cached
-          node_cache[:next][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('next', :insens, index))
-        r0 = instantiate_node(LastNext,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('next', false, index)
+        r0 = instantiate_node(LastNext,input, index...(index + 4))
+        @index += 4
       else
-        terminal_parse_failure('\'next\'')
+        terminal_parse_failure('next')
         r0 = nil
       end
 
@@ -1229,7 +1189,7 @@ module Timing
       if node_cache[:beginning_end].has_key?(index)
         cached = node_cache[:beginning_end][index]
         if cached
-          node_cache[:beginning_end][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -1238,12 +1198,10 @@ module Timing
       i0 = index
       r1 = _nt_beginning_of
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_end_of
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           @index = i0
@@ -1268,18 +1226,18 @@ module Timing
       if node_cache[:beginning_of].has_key?(index)
         cached = node_cache[:beginning_of][index]
         if cached
-          node_cache[:beginning_of][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('beginning', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('beginning', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 9))
+        @index += 9
       else
-        terminal_parse_failure('\'beginning\'')
+        terminal_parse_failure('beginning')
         r1 = nil
       end
       s0 << r1
@@ -1296,11 +1254,11 @@ module Timing
         r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
         s0 << r2
         if r2
-          if (match_len = has_terminal?('of', :insens, index))
-            r4 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('of', false, index)
+            r4 = instantiate_node(SyntaxNode,input, index...(index + 2))
+            @index += 2
           else
-            terminal_parse_failure('\'of\'')
+            terminal_parse_failure('of')
             r4 = nil
           end
           s0 << r4
@@ -1331,18 +1289,18 @@ module Timing
       if node_cache[:end_of].has_key?(index)
         cached = node_cache[:end_of][index]
         if cached
-          node_cache[:end_of][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('end', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('end', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 3))
+        @index += 3
       else
-        terminal_parse_failure('\'end\'')
+        terminal_parse_failure('end')
         r1 = nil
       end
       s0 << r1
@@ -1359,11 +1317,11 @@ module Timing
         r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
         s0 << r2
         if r2
-          if (match_len = has_terminal?('of', :insens, index))
-            r4 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('of', false, index)
+            r4 = instantiate_node(SyntaxNode,input, index...(index + 2))
+            @index += 2
           else
-            terminal_parse_failure('\'of\'')
+            terminal_parse_failure('of')
             r4 = nil
           end
           s0 << r4
@@ -1387,7 +1345,7 @@ module Timing
       if node_cache[:before_from].has_key?(index)
         cached = node_cache[:before_from][index]
         if cached
-          node_cache[:before_from][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -1396,12 +1354,10 @@ module Timing
       i0 = index
       r1 = _nt_before
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_from
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           @index = i0
@@ -1419,17 +1375,17 @@ module Timing
       if node_cache[:before].has_key?(index)
         cached = node_cache[:before][index]
         if cached
-          node_cache[:before][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('before', :insens, index))
-        r0 = instantiate_node(BeforeFrom,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('before', false, index)
+        r0 = instantiate_node(BeforeFrom,input, index...(index + 6))
+        @index += 6
       else
-        terminal_parse_failure('\'before\'')
+        terminal_parse_failure('before')
         r0 = nil
       end
 
@@ -1443,17 +1399,17 @@ module Timing
       if node_cache[:from].has_key?(index)
         cached = node_cache[:from][index]
         if cached
-          node_cache[:from][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if (match_len = has_terminal?('from', :insens, index))
-        r0 = instantiate_node(BeforeFrom,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('from', false, index)
+        r0 = instantiate_node(BeforeFrom,input, index...(index + 4))
+        @index += 4
       else
-        terminal_parse_failure('\'from\'')
+        terminal_parse_failure('from')
         r0 = nil
       end
 
@@ -1467,7 +1423,7 @@ module Timing
       if node_cache[:interval].has_key?(index)
         cached = node_cache[:interval][index]
         if cached
-          node_cache[:interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -1476,37 +1432,30 @@ module Timing
       i0 = index
       r1 = _nt_second_interval
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_minute_interval
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           r3 = _nt_hour_interval
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
             r4 = _nt_day_interval
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
               r5 = _nt_week_interval
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
                 r6 = _nt_month_interval
                 if r6
-                  r6 = SyntaxNode.new(input, (index-1)...index) if r6 == true
                   r0 = r6
                 else
                   r7 = _nt_year_interval
                   if r7
-                    r7 = SyntaxNode.new(input, (index-1)...index) if r7 == true
                     r0 = r7
                   else
                     @index = i0
@@ -1532,27 +1481,27 @@ module Timing
       if node_cache[:second_interval].has_key?(index)
         cached = node_cache[:second_interval][index]
         if cached
-          node_cache[:second_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('second', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('second', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 6))
+        @index += 6
       else
-        terminal_parse_failure('\'second\'')
+        terminal_parse_failure('second')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1583,27 +1532,27 @@ module Timing
       if node_cache[:minute_interval].has_key?(index)
         cached = node_cache[:minute_interval][index]
         if cached
-          node_cache[:minute_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('minute', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('minute', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 6))
+        @index += 6
       else
-        terminal_parse_failure('\'minute\'')
+        terminal_parse_failure('minute')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1634,27 +1583,27 @@ module Timing
       if node_cache[:hour_interval].has_key?(index)
         cached = node_cache[:hour_interval][index]
         if cached
-          node_cache[:hour_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('hour', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('hour', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 4))
+        @index += 4
       else
-        terminal_parse_failure('\'hour\'')
+        terminal_parse_failure('hour')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1685,27 +1634,27 @@ module Timing
       if node_cache[:day_interval].has_key?(index)
         cached = node_cache[:day_interval][index]
         if cached
-          node_cache[:day_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('day', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('day', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 3))
+        @index += 3
       else
-        terminal_parse_failure('\'day\'')
+        terminal_parse_failure('day')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1736,27 +1685,27 @@ module Timing
       if node_cache[:week_interval].has_key?(index)
         cached = node_cache[:week_interval][index]
         if cached
-          node_cache[:week_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('week', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('week', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 4))
+        @index += 4
       else
-        terminal_parse_failure('\'week\'')
+        terminal_parse_failure('week')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1787,27 +1736,27 @@ module Timing
       if node_cache[:month_interval].has_key?(index)
         cached = node_cache[:month_interval][index]
         if cached
-          node_cache[:month_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('month', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('month', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 5))
+        @index += 5
       else
-        terminal_parse_failure('\'month\'')
+        terminal_parse_failure('month')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1838,27 +1787,27 @@ module Timing
       if node_cache[:year_interval].has_key?(index)
         cached = node_cache[:year_interval][index]
         if cached
-          node_cache[:year_interval][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if (match_len = has_terminal?('year', :insens, index))
-        r1 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('year', false, index)
+        r1 = instantiate_node(SyntaxNode,input, index...(index + 4))
+        @index += 4
       else
-        terminal_parse_failure('\'year\'')
+        terminal_parse_failure('year')
         r1 = nil
       end
       s0 << r1
       if r1
-        if (match_len = has_terminal?('s', :insens, index))
-          r3 = instantiate_node(SyntaxNode,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('s', false, index)
+          r3 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\'s\'')
+          terminal_parse_failure('s')
           r3 = nil
         end
         if r3
@@ -1886,7 +1835,7 @@ module Timing
       if node_cache[:day_name].has_key?(index)
         cached = node_cache[:day_name][index]
         if cached
-          node_cache[:day_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -1895,12 +1844,10 @@ module Timing
       i0 = index
       r1 = _nt_long_day_name
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_short_day_name
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           @index = i0
@@ -1918,88 +1865,81 @@ module Timing
       if node_cache[:long_day_name].has_key?(index)
         cached = node_cache[:long_day_name][index]
         if cached
-          node_cache[:long_day_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0 = index
-      if (match_len = has_terminal?('sunday', :insens, index))
-        r1 = instantiate_node(DayName,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('sunday', false, index)
+        r1 = instantiate_node(DayName,input, index...(index + 6))
+        @index += 6
       else
-        terminal_parse_failure('\'sunday\'')
+        terminal_parse_failure('sunday')
         r1 = nil
       end
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        if (match_len = has_terminal?('monday', :insens, index))
-          r2 = instantiate_node(DayName,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('monday', false, index)
+          r2 = instantiate_node(DayName,input, index...(index + 6))
+          @index += 6
         else
-          terminal_parse_failure('\'monday\'')
+          terminal_parse_failure('monday')
           r2 = nil
         end
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
-          if (match_len = has_terminal?('tuesday', :insens, index))
-            r3 = instantiate_node(DayName,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('tuesday', false, index)
+            r3 = instantiate_node(DayName,input, index...(index + 7))
+            @index += 7
           else
-            terminal_parse_failure('\'tuesday\'')
+            terminal_parse_failure('tuesday')
             r3 = nil
           end
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
-            if (match_len = has_terminal?('wednesday', :insens, index))
-              r4 = instantiate_node(DayName,input, index...(index + match_len))
-              @index += match_len
+            if has_terminal?('wednesday', false, index)
+              r4 = instantiate_node(DayName,input, index...(index + 9))
+              @index += 9
             else
-              terminal_parse_failure('\'wednesday\'')
+              terminal_parse_failure('wednesday')
               r4 = nil
             end
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
-              if (match_len = has_terminal?('thursday', :insens, index))
-                r5 = instantiate_node(DayName,input, index...(index + match_len))
-                @index += match_len
+              if has_terminal?('thursday', false, index)
+                r5 = instantiate_node(DayName,input, index...(index + 8))
+                @index += 8
               else
-                terminal_parse_failure('\'thursday\'')
+                terminal_parse_failure('thursday')
                 r5 = nil
               end
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
-                if (match_len = has_terminal?('friday', :insens, index))
-                  r6 = instantiate_node(DayName,input, index...(index + match_len))
-                  @index += match_len
+                if has_terminal?('friday', false, index)
+                  r6 = instantiate_node(DayName,input, index...(index + 6))
+                  @index += 6
                 else
-                  terminal_parse_failure('\'friday\'')
+                  terminal_parse_failure('friday')
                   r6 = nil
                 end
                 if r6
-                  r6 = SyntaxNode.new(input, (index-1)...index) if r6 == true
                   r0 = r6
                 else
-                  if (match_len = has_terminal?('saturday', :insens, index))
-                    r7 = instantiate_node(DayName,input, index...(index + match_len))
-                    @index += match_len
+                  if has_terminal?('saturday', false, index)
+                    r7 = instantiate_node(DayName,input, index...(index + 8))
+                    @index += 8
                   else
-                    terminal_parse_failure('\'saturday\'')
+                    terminal_parse_failure('saturday')
                     r7 = nil
                   end
                   if r7
-                    r7 = SyntaxNode.new(input, (index-1)...index) if r7 == true
                     r0 = r7
                   else
                     @index = i0
@@ -2022,88 +1962,81 @@ module Timing
       if node_cache[:short_day_name].has_key?(index)
         cached = node_cache[:short_day_name][index]
         if cached
-          node_cache[:short_day_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0 = index
-      if (match_len = has_terminal?('sun', :insens, index))
-        r1 = instantiate_node(DayName,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('sun', false, index)
+        r1 = instantiate_node(DayName,input, index...(index + 3))
+        @index += 3
       else
-        terminal_parse_failure('\'sun\'')
+        terminal_parse_failure('sun')
         r1 = nil
       end
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        if (match_len = has_terminal?('mon', :insens, index))
-          r2 = instantiate_node(DayName,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('mon', false, index)
+          r2 = instantiate_node(DayName,input, index...(index + 3))
+          @index += 3
         else
-          terminal_parse_failure('\'mon\'')
+          terminal_parse_failure('mon')
           r2 = nil
         end
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
-          if (match_len = has_terminal?('tue', :insens, index))
-            r3 = instantiate_node(DayName,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('tue', false, index)
+            r3 = instantiate_node(DayName,input, index...(index + 3))
+            @index += 3
           else
-            terminal_parse_failure('\'tue\'')
+            terminal_parse_failure('tue')
             r3 = nil
           end
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
-            if (match_len = has_terminal?('wed', :insens, index))
-              r4 = instantiate_node(DayName,input, index...(index + match_len))
-              @index += match_len
+            if has_terminal?('wed', false, index)
+              r4 = instantiate_node(DayName,input, index...(index + 3))
+              @index += 3
             else
-              terminal_parse_failure('\'wed\'')
+              terminal_parse_failure('wed')
               r4 = nil
             end
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
-              if (match_len = has_terminal?('thu', :insens, index))
-                r5 = instantiate_node(DayName,input, index...(index + match_len))
-                @index += match_len
+              if has_terminal?('thu', false, index)
+                r5 = instantiate_node(DayName,input, index...(index + 3))
+                @index += 3
               else
-                terminal_parse_failure('\'thu\'')
+                terminal_parse_failure('thu')
                 r5 = nil
               end
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
-                if (match_len = has_terminal?('fri', :insens, index))
-                  r6 = instantiate_node(DayName,input, index...(index + match_len))
-                  @index += match_len
+                if has_terminal?('fri', false, index)
+                  r6 = instantiate_node(DayName,input, index...(index + 3))
+                  @index += 3
                 else
-                  terminal_parse_failure('\'fri\'')
+                  terminal_parse_failure('fri')
                   r6 = nil
                 end
                 if r6
-                  r6 = SyntaxNode.new(input, (index-1)...index) if r6 == true
                   r0 = r6
                 else
-                  if (match_len = has_terminal?('sat', :insens, index))
-                    r7 = instantiate_node(DayName,input, index...(index + match_len))
-                    @index += match_len
+                  if has_terminal?('sat', false, index)
+                    r7 = instantiate_node(DayName,input, index...(index + 3))
+                    @index += 3
                   else
-                    terminal_parse_failure('\'sat\'')
+                    terminal_parse_failure('sat')
                     r7 = nil
                   end
                   if r7
-                    r7 = SyntaxNode.new(input, (index-1)...index) if r7 == true
                     r0 = r7
                   else
                     @index = i0
@@ -2126,7 +2059,7 @@ module Timing
       if node_cache[:month_name].has_key?(index)
         cached = node_cache[:month_name][index]
         if cached
-          node_cache[:month_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -2135,12 +2068,10 @@ module Timing
       i0 = index
       r1 = _nt_long_month_name
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
         r2 = _nt_short_month_name
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
           @index = i0
@@ -2158,143 +2089,131 @@ module Timing
       if node_cache[:long_month_name].has_key?(index)
         cached = node_cache[:long_month_name][index]
         if cached
-          node_cache[:long_month_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0 = index
-      if (match_len = has_terminal?('january', :insens, index))
-        r1 = instantiate_node(MonthName,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('january', false, index)
+        r1 = instantiate_node(MonthName,input, index...(index + 7))
+        @index += 7
       else
-        terminal_parse_failure('\'january\'')
+        terminal_parse_failure('january')
         r1 = nil
       end
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        if (match_len = has_terminal?('february', :insens, index))
-          r2 = instantiate_node(MonthName,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('february', false, index)
+          r2 = instantiate_node(MonthName,input, index...(index + 8))
+          @index += 8
         else
-          terminal_parse_failure('\'february\'')
+          terminal_parse_failure('february')
           r2 = nil
         end
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
-          if (match_len = has_terminal?('march', :insens, index))
-            r3 = instantiate_node(MonthName,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('march', false, index)
+            r3 = instantiate_node(MonthName,input, index...(index + 5))
+            @index += 5
           else
-            terminal_parse_failure('\'march\'')
+            terminal_parse_failure('march')
             r3 = nil
           end
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
-            if (match_len = has_terminal?('april', :insens, index))
-              r4 = instantiate_node(MonthName,input, index...(index + match_len))
-              @index += match_len
+            if has_terminal?('april', false, index)
+              r4 = instantiate_node(MonthName,input, index...(index + 5))
+              @index += 5
             else
-              terminal_parse_failure('\'april\'')
+              terminal_parse_failure('april')
               r4 = nil
             end
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
-              if (match_len = has_terminal?('may', :insens, index))
-                r5 = instantiate_node(MonthName,input, index...(index + match_len))
-                @index += match_len
+              if has_terminal?('may', false, index)
+                r5 = instantiate_node(MonthName,input, index...(index + 3))
+                @index += 3
               else
-                terminal_parse_failure('\'may\'')
+                terminal_parse_failure('may')
                 r5 = nil
               end
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
-                if (match_len = has_terminal?('june', :insens, index))
-                  r6 = instantiate_node(MonthName,input, index...(index + match_len))
-                  @index += match_len
+                if has_terminal?('june', false, index)
+                  r6 = instantiate_node(MonthName,input, index...(index + 4))
+                  @index += 4
                 else
-                  terminal_parse_failure('\'june\'')
+                  terminal_parse_failure('june')
                   r6 = nil
                 end
                 if r6
-                  r6 = SyntaxNode.new(input, (index-1)...index) if r6 == true
                   r0 = r6
                 else
-                  if (match_len = has_terminal?('july', :insens, index))
-                    r7 = instantiate_node(MonthName,input, index...(index + match_len))
-                    @index += match_len
+                  if has_terminal?('july', false, index)
+                    r7 = instantiate_node(MonthName,input, index...(index + 4))
+                    @index += 4
                   else
-                    terminal_parse_failure('\'july\'')
+                    terminal_parse_failure('july')
                     r7 = nil
                   end
                   if r7
-                    r7 = SyntaxNode.new(input, (index-1)...index) if r7 == true
                     r0 = r7
                   else
-                    if (match_len = has_terminal?('august', :insens, index))
-                      r8 = instantiate_node(MonthName,input, index...(index + match_len))
-                      @index += match_len
+                    if has_terminal?('august', false, index)
+                      r8 = instantiate_node(MonthName,input, index...(index + 6))
+                      @index += 6
                     else
-                      terminal_parse_failure('\'august\'')
+                      terminal_parse_failure('august')
                       r8 = nil
                     end
                     if r8
-                      r8 = SyntaxNode.new(input, (index-1)...index) if r8 == true
                       r0 = r8
                     else
-                      if (match_len = has_terminal?('september', :insens, index))
-                        r9 = instantiate_node(MonthName,input, index...(index + match_len))
-                        @index += match_len
+                      if has_terminal?('september', false, index)
+                        r9 = instantiate_node(MonthName,input, index...(index + 9))
+                        @index += 9
                       else
-                        terminal_parse_failure('\'september\'')
+                        terminal_parse_failure('september')
                         r9 = nil
                       end
                       if r9
-                        r9 = SyntaxNode.new(input, (index-1)...index) if r9 == true
                         r0 = r9
                       else
-                        if (match_len = has_terminal?('october', :insens, index))
-                          r10 = instantiate_node(MonthName,input, index...(index + match_len))
-                          @index += match_len
+                        if has_terminal?('october', false, index)
+                          r10 = instantiate_node(MonthName,input, index...(index + 7))
+                          @index += 7
                         else
-                          terminal_parse_failure('\'october\'')
+                          terminal_parse_failure('october')
                           r10 = nil
                         end
                         if r10
-                          r10 = SyntaxNode.new(input, (index-1)...index) if r10 == true
                           r0 = r10
                         else
-                          if (match_len = has_terminal?('november', :insens, index))
-                            r11 = instantiate_node(MonthName,input, index...(index + match_len))
-                            @index += match_len
+                          if has_terminal?('november', false, index)
+                            r11 = instantiate_node(MonthName,input, index...(index + 8))
+                            @index += 8
                           else
-                            terminal_parse_failure('\'november\'')
+                            terminal_parse_failure('november')
                             r11 = nil
                           end
                           if r11
-                            r11 = SyntaxNode.new(input, (index-1)...index) if r11 == true
                             r0 = r11
                           else
-                            if (match_len = has_terminal?('december', :insens, index))
-                              r12 = instantiate_node(MonthName,input, index...(index + match_len))
-                              @index += match_len
+                            if has_terminal?('december', false, index)
+                              r12 = instantiate_node(MonthName,input, index...(index + 8))
+                              @index += 8
                             else
-                              terminal_parse_failure('\'december\'')
+                              terminal_parse_failure('december')
                               r12 = nil
                             end
                             if r12
-                              r12 = SyntaxNode.new(input, (index-1)...index) if r12 == true
                               r0 = r12
                             else
                               @index = i0
@@ -2322,143 +2241,131 @@ module Timing
       if node_cache[:short_month_name].has_key?(index)
         cached = node_cache[:short_month_name][index]
         if cached
-          node_cache[:short_month_name][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0 = index
-      if (match_len = has_terminal?('jan', :insens, index))
-        r1 = instantiate_node(MonthName,input, index...(index + match_len))
-        @index += match_len
+      if has_terminal?('jan', false, index)
+        r1 = instantiate_node(MonthName,input, index...(index + 3))
+        @index += 3
       else
-        terminal_parse_failure('\'jan\'')
+        terminal_parse_failure('jan')
         r1 = nil
       end
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        if (match_len = has_terminal?('feb', :insens, index))
-          r2 = instantiate_node(MonthName,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('feb', false, index)
+          r2 = instantiate_node(MonthName,input, index...(index + 3))
+          @index += 3
         else
-          terminal_parse_failure('\'feb\'')
+          terminal_parse_failure('feb')
           r2 = nil
         end
         if r2
-          r2 = SyntaxNode.new(input, (index-1)...index) if r2 == true
           r0 = r2
         else
-          if (match_len = has_terminal?('mar', :insens, index))
-            r3 = instantiate_node(MonthName,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('mar', false, index)
+            r3 = instantiate_node(MonthName,input, index...(index + 3))
+            @index += 3
           else
-            terminal_parse_failure('\'mar\'')
+            terminal_parse_failure('mar')
             r3 = nil
           end
           if r3
-            r3 = SyntaxNode.new(input, (index-1)...index) if r3 == true
             r0 = r3
           else
-            if (match_len = has_terminal?('apr', :insens, index))
-              r4 = instantiate_node(MonthName,input, index...(index + match_len))
-              @index += match_len
+            if has_terminal?('apr', false, index)
+              r4 = instantiate_node(MonthName,input, index...(index + 3))
+              @index += 3
             else
-              terminal_parse_failure('\'apr\'')
+              terminal_parse_failure('apr')
               r4 = nil
             end
             if r4
-              r4 = SyntaxNode.new(input, (index-1)...index) if r4 == true
               r0 = r4
             else
-              if (match_len = has_terminal?('may', :insens, index))
-                r5 = instantiate_node(MonthName,input, index...(index + match_len))
-                @index += match_len
+              if has_terminal?('may', false, index)
+                r5 = instantiate_node(MonthName,input, index...(index + 3))
+                @index += 3
               else
-                terminal_parse_failure('\'may\'')
+                terminal_parse_failure('may')
                 r5 = nil
               end
               if r5
-                r5 = SyntaxNode.new(input, (index-1)...index) if r5 == true
                 r0 = r5
               else
-                if (match_len = has_terminal?('jun', :insens, index))
-                  r6 = instantiate_node(MonthName,input, index...(index + match_len))
-                  @index += match_len
+                if has_terminal?('jun', false, index)
+                  r6 = instantiate_node(MonthName,input, index...(index + 3))
+                  @index += 3
                 else
-                  terminal_parse_failure('\'jun\'')
+                  terminal_parse_failure('jun')
                   r6 = nil
                 end
                 if r6
-                  r6 = SyntaxNode.new(input, (index-1)...index) if r6 == true
                   r0 = r6
                 else
-                  if (match_len = has_terminal?('jul', :insens, index))
-                    r7 = instantiate_node(MonthName,input, index...(index + match_len))
-                    @index += match_len
+                  if has_terminal?('jul', false, index)
+                    r7 = instantiate_node(MonthName,input, index...(index + 3))
+                    @index += 3
                   else
-                    terminal_parse_failure('\'jul\'')
+                    terminal_parse_failure('jul')
                     r7 = nil
                   end
                   if r7
-                    r7 = SyntaxNode.new(input, (index-1)...index) if r7 == true
                     r0 = r7
                   else
-                    if (match_len = has_terminal?('aug', :insens, index))
-                      r8 = instantiate_node(MonthName,input, index...(index + match_len))
-                      @index += match_len
+                    if has_terminal?('aug', false, index)
+                      r8 = instantiate_node(MonthName,input, index...(index + 3))
+                      @index += 3
                     else
-                      terminal_parse_failure('\'aug\'')
+                      terminal_parse_failure('aug')
                       r8 = nil
                     end
                     if r8
-                      r8 = SyntaxNode.new(input, (index-1)...index) if r8 == true
                       r0 = r8
                     else
-                      if (match_len = has_terminal?('sep', :insens, index))
-                        r9 = instantiate_node(MonthName,input, index...(index + match_len))
-                        @index += match_len
+                      if has_terminal?('sep', false, index)
+                        r9 = instantiate_node(MonthName,input, index...(index + 3))
+                        @index += 3
                       else
-                        terminal_parse_failure('\'sep\'')
+                        terminal_parse_failure('sep')
                         r9 = nil
                       end
                       if r9
-                        r9 = SyntaxNode.new(input, (index-1)...index) if r9 == true
                         r0 = r9
                       else
-                        if (match_len = has_terminal?('oct', :insens, index))
-                          r10 = instantiate_node(MonthName,input, index...(index + match_len))
-                          @index += match_len
+                        if has_terminal?('oct', false, index)
+                          r10 = instantiate_node(MonthName,input, index...(index + 3))
+                          @index += 3
                         else
-                          terminal_parse_failure('\'oct\'')
+                          terminal_parse_failure('oct')
                           r10 = nil
                         end
                         if r10
-                          r10 = SyntaxNode.new(input, (index-1)...index) if r10 == true
                           r0 = r10
                         else
-                          if (match_len = has_terminal?('nov', :insens, index))
-                            r11 = instantiate_node(MonthName,input, index...(index + match_len))
-                            @index += match_len
+                          if has_terminal?('nov', false, index)
+                            r11 = instantiate_node(MonthName,input, index...(index + 3))
+                            @index += 3
                           else
-                            terminal_parse_failure('\'nov\'')
+                            terminal_parse_failure('nov')
                             r11 = nil
                           end
                           if r11
-                            r11 = SyntaxNode.new(input, (index-1)...index) if r11 == true
                             r0 = r11
                           else
-                            if (match_len = has_terminal?('dec', :insens, index))
-                              r12 = instantiate_node(MonthName,input, index...(index + match_len))
-                              @index += match_len
+                            if has_terminal?('dec', false, index)
+                              r12 = instantiate_node(MonthName,input, index...(index + 3))
+                              @index += 3
                             else
-                              terminal_parse_failure('\'dec\'')
+                              terminal_parse_failure('dec')
                               r12 = nil
                             end
                             if r12
-                              r12 = SyntaxNode.new(input, (index-1)...index) if r12 == true
                               r0 = r12
                             else
                               @index = i0
@@ -2489,29 +2396,27 @@ module Timing
       if node_cache[:zone_offset].has_key?(index)
         cached = node_cache[:zone_offset][index]
         if cached
-          node_cache[:zone_offset][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
       i0, s0 = index, []
-      if has_terminal?(@regexps[gr = '\A[+-]'] ||= Regexp.new(gr), :regexp, index)
+      if has_terminal?('\G[+-]', true, index)
         r1 = true
         @index += 1
       else
-        terminal_parse_failure('[+-]')
         r1 = nil
       end
       s0 << r1
       if r1
         s2, i2 = [], index
         loop do
-          if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+          if has_terminal?('\G[\\d]', true, index)
             r3 = true
             @index += 1
           else
-            terminal_parse_failure('[\\d]')
             r3 = nil
           end
           if r3
@@ -2527,18 +2432,15 @@ module Timing
           @index = i2
           r2 = nil
         else
-          if s2.size < 2
-            terminal_failures.pop
-          end
           r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
         end
         s0 << r2
         if r2
-          if (match_len = has_terminal?(':', false, index))
-            r5 = true
-            @index += match_len
+          if has_terminal?(':', false, index)
+            r5 = instantiate_node(SyntaxNode,input, index...(index + 1))
+            @index += 1
           else
-            terminal_parse_failure('\':\'')
+            terminal_parse_failure(':')
             r5 = nil
           end
           if r5
@@ -2550,11 +2452,10 @@ module Timing
           if r4
             s6, i6 = [], index
             loop do
-              if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+              if has_terminal?('\G[\\d]', true, index)
                 r7 = true
                 @index += 1
               else
-                terminal_parse_failure('[\\d]')
                 r7 = nil
               end
               if r7
@@ -2570,9 +2471,6 @@ module Timing
               @index = i6
               r6 = nil
             else
-              if s6.size < 2
-                terminal_failures.pop
-              end
               r6 = instantiate_node(SyntaxNode,input, i6...index, s6)
             end
             s0 << r6
@@ -2603,7 +2501,7 @@ module Timing
       if node_cache[:hour_minute_second].has_key?(index)
         cached = node_cache[:hour_minute_second][index]
         if cached
-          node_cache[:hour_minute_second][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -2613,11 +2511,10 @@ module Timing
       i1, s1 = index, []
       s2, i2 = [], index
       loop do
-        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+        if has_terminal?('\G[\\d]', true, index)
           r3 = true
           @index += 1
         else
-          terminal_parse_failure('[\\d]')
           r3 = nil
         end
         if r3
@@ -2633,29 +2530,25 @@ module Timing
         @index = i2
         r2 = nil
       else
-        if s2.size < 2
-          terminal_failures.pop
-        end
         r2 = instantiate_node(SyntaxNode,input, i2...index, s2)
       end
       s1 << r2
       if r2
-        if (match_len = has_terminal?(':', false, index))
-          r4 = true
-          @index += match_len
+        if has_terminal?(':', false, index)
+          r4 = instantiate_node(SyntaxNode,input, index...(index + 1))
+          @index += 1
         else
-          terminal_parse_failure('\':\'')
+          terminal_parse_failure(':')
           r4 = nil
         end
         s1 << r4
         if r4
           s5, i5 = [], index
           loop do
-            if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+            if has_terminal?('\G[\\d]', true, index)
               r6 = true
               @index += 1
             else
-              terminal_parse_failure('[\\d]')
               r6 = nil
             end
             if r6
@@ -2671,30 +2564,26 @@ module Timing
             @index = i5
             r5 = nil
           else
-            if s5.size < 2
-              terminal_failures.pop
-            end
             r5 = instantiate_node(SyntaxNode,input, i5...index, s5)
           end
           s1 << r5
           if r5
             i8, s8 = index, []
-            if (match_len = has_terminal?(':', false, index))
-              r9 = true
-              @index += match_len
+            if has_terminal?(':', false, index)
+              r9 = instantiate_node(SyntaxNode,input, index...(index + 1))
+              @index += 1
             else
-              terminal_parse_failure('\':\'')
+              terminal_parse_failure(':')
               r9 = nil
             end
             s8 << r9
             if r9
               s10, i10 = [], index
               loop do
-                if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+                if has_terminal?('\G[\\d]', true, index)
                   r11 = true
                   @index += 1
                 else
-                  terminal_parse_failure('[\\d]')
                   r11 = nil
                 end
                 if r11
@@ -2710,9 +2599,6 @@ module Timing
                 @index = i10
                 r10 = nil
               else
-                if s10.size < 2
-                  terminal_failures.pop
-                end
                 r10 = instantiate_node(SyntaxNode,input, i10...index, s10)
               end
               s8 << r10
@@ -2741,29 +2627,26 @@ module Timing
         r1 = nil
       end
       if r1
-        r1 = SyntaxNode.new(input, (index-1)...index) if r1 == true
         r0 = r1
       else
-        if (match_len = has_terminal?('beginning', false, index))
-          r12 = instantiate_node(HourMinuteSecond,input, index...(index + match_len))
-          @index += match_len
+        if has_terminal?('beginning', false, index)
+          r12 = instantiate_node(HourMinuteSecond,input, index...(index + 9))
+          @index += 9
         else
-          terminal_parse_failure('\'beginning\'')
+          terminal_parse_failure('beginning')
           r12 = nil
         end
         if r12
-          r12 = SyntaxNode.new(input, (index-1)...index) if r12 == true
           r0 = r12
         else
-          if (match_len = has_terminal?('end', false, index))
-            r13 = instantiate_node(HourMinuteSecond,input, index...(index + match_len))
-            @index += match_len
+          if has_terminal?('end', false, index)
+            r13 = instantiate_node(HourMinuteSecond,input, index...(index + 3))
+            @index += 3
           else
-            terminal_parse_failure('\'end\'')
+            terminal_parse_failure('end')
             r13 = nil
           end
           if r13
-            r13 = SyntaxNode.new(input, (index-1)...index) if r13 == true
             r0 = r13
           else
             @index = i0
@@ -2782,7 +2665,7 @@ module Timing
       if node_cache[:integer].has_key?(index)
         cached = node_cache[:integer][index]
         if cached
-          node_cache[:integer][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
@@ -2790,11 +2673,10 @@ module Timing
 
       s0, i0 = [], index
       loop do
-        if has_terminal?(@regexps[gr = '\A[\\d]'] ||= Regexp.new(gr), :regexp, index)
+        if has_terminal?('\G[\\d]', true, index)
           r1 = true
           @index += 1
         else
-          terminal_parse_failure('[\\d]')
           r1 = nil
         end
         if r1
@@ -2820,17 +2702,16 @@ module Timing
       if node_cache[:space].has_key?(index)
         cached = node_cache[:space][index]
         if cached
-          node_cache[:space][index] = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
+          cached = SyntaxNode.new(input, index...(index + 1)) if cached == true
           @index = cached.interval.end
         end
         return cached
       end
 
-      if has_terminal?(@regexps[gr = '\A[\\s\\t\\n]'] ||= Regexp.new(gr), :regexp, index)
+      if has_terminal?('\G[\\s\\t\\n]', true, index)
         r0 = instantiate_node(SyntaxNode,input, index...(index + 1))
         @index += 1
       else
-        terminal_parse_failure('[\\s\\t\\n]')
         r0 = nil
       end
 

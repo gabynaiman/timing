@@ -42,11 +42,11 @@ module Timing
     end
 
     rule time_ago
-      number:integer space* interval_type:interval space* 'ago'i <TimeAgo>
+      number:integer space* interval_type:interval space* 'ago' <TimeAgo>
     end
 
     rule moment_at_time
-      moment:date_moment space* 'at'i space* time:hour_minute_second <MomentAtTime>
+      moment:date_moment space* 'at' space* time:hour_minute_second <MomentAtTime>
     end
 
     rule before_from_moment
@@ -54,23 +54,23 @@ module Timing
     end
 
     rule timestamp
-      [\d]4..4 '-' [\d]2..2 '-' [\d]2..2 space* 'T'? space* [\d]2..2 ':' [\d]2..2 ':' [\d]2..2 <Timestamp>
+      [\d]4..4 '-' [\d]2..2 '-' [\d]2..2 space* 't'? space* [\d]2..2 ':' [\d]2..2 ':' [\d]2..2 <Timestamp>
     end
 
     rule now
-      'now'i <Now>
+      'now' <Now>
     end
 
     rule today
-      'today'i <Today>
+      'today' <Today>
     end
 
     rule tomorrow
-      'tomorrow'i <Tomorrow>
+      'tomorrow' <Tomorrow>
     end
 
     rule yesterday
-      'yesterday'i <Yesterday>
+      'yesterday' <Yesterday>
     end
 
     rule last_next
@@ -78,11 +78,11 @@ module Timing
     end
 
     rule last
-      'last'i <LastNext>
+      'last' <LastNext>
     end
 
     rule next
-      'next'i <LastNext>
+      'next' <LastNext>
     end
 
     rule beginning_end
@@ -90,11 +90,11 @@ module Timing
     end
 
     rule beginning_of
-      direction:'beginning'i space* 'of'i <BeginningEnd>
+      direction:'beginning' space* 'of' <BeginningEnd>
     end
 
     rule end_of
-      direction:'end'i space* 'of'i <BeginningEnd>
+      direction:'end' space* 'of' <BeginningEnd>
     end
 
     rule before_from
@@ -102,11 +102,11 @@ module Timing
     end
 
     rule before
-      'before'i <BeforeFrom>
+      'before' <BeforeFrom>
     end
 
     rule from
-      'from'i <BeforeFrom>
+      'from' <BeforeFrom>
     end
 
     rule interval
@@ -120,31 +120,31 @@ module Timing
     end
 
     rule second_interval
-      'second'i 's'i? <SecondInterval>
+      'second' 's'? <SecondInterval>
     end
 
     rule minute_interval
-      'minute'i 's'i? <MinuteInterval>
+      'minute' 's'? <MinuteInterval>
     end
 
     rule hour_interval
-      'hour'i 's'i? <HourInterval>
+      'hour' 's'? <HourInterval>
     end
 
     rule day_interval
-      'day'i 's'i? <DayInterval>
+      'day' 's'? <DayInterval>
     end
 
     rule week_interval
-      'week'i 's'i?  <WeekInterval>
+      'week' 's'?  <WeekInterval>
     end
 
     rule month_interval
-      'month'i 's'i?  <MonthInterval>
+      'month' 's'?  <MonthInterval>
     end
 
     rule year_interval
-      'year'i 's'i?  <YearInterval>
+      'year' 's'?  <YearInterval>
     end
 
     rule day_name
@@ -152,23 +152,23 @@ module Timing
     end
 
     rule long_day_name
-      'sunday'i    <DayName> /
-      'monday'i    <DayName> /
-      'tuesday'i   <DayName> /
-      'wednesday'i <DayName> /
-      'thursday'i  <DayName> /
-      'friday'i    <DayName> /
-      'saturday'i  <DayName>
+      'sunday'    <DayName> /
+      'monday'    <DayName> /
+      'tuesday'   <DayName> /
+      'wednesday' <DayName> /
+      'thursday'  <DayName> /
+      'friday'    <DayName> /
+      'saturday'  <DayName>
     end
 
     rule short_day_name
-      'sun'i <DayName> /
-      'mon'i <DayName> /
-      'tue'i <DayName> /
-      'wed'i <DayName> /
-      'thu'i <DayName> /
-      'fri'i <DayName> /
-      'sat'i <DayName>
+      'sun' <DayName> /
+      'mon' <DayName> /
+      'tue' <DayName> /
+      'wed' <DayName> /
+      'thu' <DayName> /
+      'fri' <DayName> /
+      'sat' <DayName>
     end
 
     rule month_name
@@ -176,33 +176,33 @@ module Timing
     end
 
     rule long_month_name
-      'january'i   <MonthName> /
-      'february'i  <MonthName> /
-      'march'i     <MonthName> /
-      'april'i     <MonthName> /
-      'may'i       <MonthName> /
-      'june'i      <MonthName> /
-      'july'i      <MonthName> /
-      'august'i    <MonthName> /
-      'september'i <MonthName> /
-      'october'i   <MonthName> /
-      'november'i  <MonthName> /
-      'december'i  <MonthName>
+      'january'   <MonthName> /
+      'february'  <MonthName> /
+      'march'     <MonthName> /
+      'april'     <MonthName> /
+      'may'       <MonthName> /
+      'june'      <MonthName> /
+      'july'      <MonthName> /
+      'august'    <MonthName> /
+      'september' <MonthName> /
+      'october'   <MonthName> /
+      'november'  <MonthName> /
+      'december'  <MonthName>
     end
 
     rule short_month_name
-      'jan'i <MonthName> /
-      'feb'i <MonthName> /
-      'mar'i <MonthName> /
-      'apr'i <MonthName> /
-      'may'i <MonthName> /
-      'jun'i <MonthName> /
-      'jul'i <MonthName> /
-      'aug'i <MonthName> /
-      'sep'i <MonthName> /
-      'oct'i <MonthName> /
-      'nov'i <MonthName> /
-      'dec'i <MonthName>
+      'jan' <MonthName> /
+      'feb' <MonthName> /
+      'mar' <MonthName> /
+      'apr' <MonthName> /
+      'may' <MonthName> /
+      'jun' <MonthName> /
+      'jul' <MonthName> /
+      'aug' <MonthName> /
+      'sep' <MonthName> /
+      'oct' <MonthName> /
+      'nov' <MonthName> /
+      'dec' <MonthName>
     end
 
     rule zone_offset

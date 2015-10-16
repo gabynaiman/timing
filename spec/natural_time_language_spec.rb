@@ -79,7 +79,7 @@ describe NaturalTimeLanguage do
     it_must_equal_time('5 days before next friday at end')       { "2015-08-16 23:59:59 #{local_offset}" }
     it_must_equal_time('1 month before beginning of month')      { "2015-07-01 00:00:00 #{local_offset}" }
     it_must_equal_time('1 year before 9 Sep +0300')              { '2014-09-09 00:00:00 +0300' }
-    it_must_equal_time('2 year from 2001-05-21T12:30:40 -0500')  { '2003-05-21 12:30:40 -0500' }
+    it_must_equal_time('2 years from 2001-05-21T12:30:40 -0500') { '2003-05-21 12:30:40 -0500' }
   end
 
 end

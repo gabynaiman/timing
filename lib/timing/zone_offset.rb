@@ -8,8 +8,8 @@ module Timing
       super
     end
 
-    def to_s
-      "#{sign}#{hour.to_s.rjust(2, '0')}#{minute.to_s.rjust(2, '0')}"
+    def to_s(separator=nil)
+      "#{sign}#{hour.to_s.rjust(2, '0')}#{separator}#{minute.to_s.rjust(2, '0')}"
     end
 
     def iso8601

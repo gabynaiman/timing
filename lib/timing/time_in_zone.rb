@@ -58,7 +58,12 @@ module Timing
     alias_method :inspect, :to_s
 
     def strftime(format)
-      time_with_offset.strftime format.gsub('%Z', '').gsub('%z', zone_offset.to_s)
+      sanitized_format = format.gsub('%Z', '')
+                               .gsub('%z', zone_offset.to_s)
+                               .gsub('%:z', zone_offset.to_s(':'))
+                               .gsub('%::z', "#{zone_offset.to_s(':')}:00")
+
+      time_with_offset.strftime sanitized_format
     end
 
     def iso8601

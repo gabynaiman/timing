@@ -125,7 +125,7 @@ describe TimeInZone do
     end
 
     it 'Formatted' do
-      TimeInZone.new(time).strftime('%d/%m/%y').must_equal time.strftime('%d/%m/%y')
+      TimeInZone.new(time).strftime('%d/%m/%y %H:%M:%S %:z').must_equal time.strftime('%d/%m/%y %H:%M:%S %:z')
     end
 
     it 'ISO 8601' do

@@ -5,6 +5,7 @@ Rake::TestTask.new(:spec) do |t|
   t.libs << 'spec'
   t.pattern = 'spec/**/*_spec.rb'
   t.verbose = false
+  t.warning = false
 end
 
 task default: :spec

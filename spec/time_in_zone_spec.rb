@@ -164,5 +164,74 @@ describe TimeInZone do
 
   end
 
+  describe 'Comparison' do
+
+    it '==' do
+      time = '2016-07-18 13:00:00 -0300'
+
+      assert TimeInZone.parse(time) == Time.parse(time)
+      assert TimeInZone.parse(time) == TimeInZone.parse(time)
+    end
+
+    it 'eql?' do
+      time = '2016-07-18 13:00:00 -0300'
+
+      assert TimeInZone.parse(time).eql?(Time.parse(time))
+      assert TimeInZone.parse(time).eql?(TimeInZone.parse(time))
+    end
+
+    it '>' do
+      time_1 = '2016-07-18 13:00:00 -0300'
+      time_2 = '2016-07-18 15:00:00 -0300'
+
+      assert TimeInZone.parse(time_2) > Time.parse(time_1)
+      assert TimeInZone.parse(time_2) > TimeInZone.parse(time_1)
+    end
+
+    it '>=' do
+      time_1 = '2016-07-18 13:00:00 -0300'
+      time_2 = '2016-07-18 15:00:00 -0300'
+
+      assert TimeInZone.parse(time_2) >= Time.parse(time_1)
+      assert TimeInZone.parse(time_2) >= TimeInZone.parse(time_1)
+
+      assert TimeInZone.parse(time_2) >= Time.parse(time_2)
+      assert TimeInZone.parse(time_2) >= TimeInZone.parse(time_2)
+    end
+    
+    it '<' do
+      time_1 = '2016-07-18 13:00:00 -0300'
+      time_2 = '2016-07-18 15:00:00 -0300'
+
+      assert TimeInZone.parse(time_1) < Time.parse(time_2)
+      assert TimeInZone.parse(time_1) < TimeInZone.parse(time_2)
+    end
+    
+    it '<=' do
+      time_1 = '2016-07-18 13:00:00 -0300'
+      time_2 = '2016-07-18 15:00:00 -0300'
+
+      assert TimeInZone.parse(time_1) <= Time.parse(time_2)
+      assert TimeInZone.parse(time_1) <= TimeInZone.parse(time_2)
+
+      assert TimeInZone.parse(time_1) <= Time.parse(time_1)
+      assert TimeInZone.parse(time_1) <= TimeInZone.parse(time_1)
+    end
+    
+    it '<=>' do
+      time_1 = '2016-07-18 13:00:00 -0300'
+      time_2 = '2016-07-18 15:00:00 -0300'
+
+      assert_equal -1, TimeInZone.parse(time_1) <=> Time.parse(time_2)
+      assert_equal -1, TimeInZone.parse(time_1) <=> TimeInZone.parse(time_2)
+
+      assert_equal 0, TimeInZone.parse(time_1) <=> Time.parse(time_1)
+      assert_equal 0, TimeInZone.parse(time_1) <=> TimeInZone.parse(time_1)
+
+      assert_equal 1, TimeInZone.parse(time_2) <=> Time.parse(time_1)
+      assert_equal 1, TimeInZone.parse(time_2) <=> TimeInZone.parse(time_1)
+    end
+
+  end
 
 end

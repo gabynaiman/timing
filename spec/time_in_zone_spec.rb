@@ -77,7 +77,7 @@ describe TimeInZone do
         tz.hour.must_equal time.hour
       end
 
-      it 'Inzalid zone' do
+      it 'Invalid zone' do
         error = proc { TimeInZone.new time, 'XYZ' }.must_raise ArgumentError
         error.message.must_equal 'Invalid time zone offset XYZ'
       end

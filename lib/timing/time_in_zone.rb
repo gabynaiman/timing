@@ -3,7 +3,7 @@ module Timing
 
     extend Forwardable
 
-    REGEXP = /[+-]\d\d:?\d\d/
+    REGEXP = /[+-]\d\d:?\d\d$/
 
     def_delegators :time, :to_i, :to_f, :to_date, :to_datetime, :between?, :==, :<, :<=, :>, :>=, :<=>, :hash
     def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec, :wday, :yday
@@ -117,7 +117,7 @@ module Timing
     end
 
     def self.parse(text)
-      match = REGEXP.match text
+      match = text.length > 10 ? REGEXP.match(text) : nil
       zone_offset = match ? match.to_s : nil
       new Time.parse(text), zone_offset
     end

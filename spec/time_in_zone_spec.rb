@@ -6,6 +6,17 @@ describe TimeInZone do
   let(:time) { Time.parse(time_string).getlocal }
   let(:local_utc_offset) { time.utc_offset }
 
+  def assert_equal_time(actual_time, expected_time)
+    actual_time.to_f.must_equal expected_time.to_f
+    actual_time.utc_offset.must_equal expected_time.utc_offset
+    actual_time.year.must_equal expected_time.year
+    actual_time.month.must_equal expected_time.month
+    actual_time.day.must_equal expected_time.day
+    actual_time.hour.must_equal expected_time.hour
+    actual_time.min.must_equal expected_time.min
+    actual_time.sec.must_equal expected_time.sec
+  end
+
   describe 'Constructors' do
 
     describe 'Default zone' do
@@ -32,11 +43,18 @@ describe TimeInZone do
         tz.hour.must_equal time.hour
       end
       
-      it 'Parse' do
+      it 'Parse date and time' do
         tz = TimeInZone.parse time.strftime('%F %T')
-        tz.to_f.must_equal time.to_f
-        tz.utc_offset.must_equal local_utc_offset
-        tz.hour.must_equal time.hour
+        assert_equal_time tz, time
+      end
+
+      it 'Parse only date' do
+        times = ['18/08/2015', '18-08-2015', '2015-08-18']
+        times.each do |t|
+          tz = TimeInZone.parse t
+          time = Time.parse t
+          assert_equal_time tz, time
+        end
       end
 
     end
@@ -68,7 +86,7 @@ describe TimeInZone do
         tz.min.must_equal 47
       end
 
-      it 'Parse' do
+      it 'Parse date and time' do
         one_hour = 60 * 60
         offset = ZoneOffset.new local_utc_offset - one_hour
         tz = TimeInZone.parse time.strftime("%F %T #{offset}")

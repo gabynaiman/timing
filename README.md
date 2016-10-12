@@ -1,10 +1,10 @@
 # Timing
 
-[![Gem Version](https://badge.fury.io/rb/timing.png)](https://rubygems.org/gems/timing)
-[![Build Status](https://travis-ci.org/gabynaiman/timing.png?branch=master)](https://travis-ci.org/gabynaiman/timing)
-[![Coverage Status](https://coveralls.io/repos/gabynaiman/timing/badge.png?branch=master)](https://coveralls.io/r/gabynaiman/timing?branch=master)
-[![Code Climate](https://codeclimate.com/github/gabynaiman/timing.png)](https://codeclimate.com/github/gabynaiman/timing)
-[![Dependency Status](https://gemnasium.com/gabynaiman/timing.png)](https://gemnasium.com/gabynaiman/timing)
+[![Gem Version](https://badge.fury.io/rb/timing.svg)](https://rubygems.org/gems/timing)
+[![Build Status](https://travis-ci.org/gabynaiman/timing.svg?branch=master)](https://travis-ci.org/gabynaiman/timing)
+[![Coverage Status](https://coveralls.io/repos/gabynaiman/timing/badge.svg?branch=master)](https://coveralls.io/r/gabynaiman/timing?branch=master)
+[![Code Climate](https://codeclimate.com/github/gabynaiman/timing.svg)](https://codeclimate.com/github/gabynaiman/timing)
+[![Dependency Status](https://gemnasium.com/gabynaiman/timing.svg)](https://gemnasium.com/gabynaiman/timing)
 
 Time utils
 

@@ -51,11 +51,13 @@ module Timing
     end
 
     def months_ago(time, count)
-      TimeInZone.new (time.to_datetime << count).to_time, time.utc_offset
+      diff = (time.to_datetime - (time.to_datetime << count)).to_f
+      TimeInZone.new time - Interval.days(diff), time.utc_offset
     end
 
     def months_after(time, count)
-      TimeInZone.new (time.to_datetime >> count).to_time, time.utc_offset
+      diff = ((time.to_datetime >> count) - time.to_datetime).to_f
+      TimeInZone.new time + Interval.days(diff), time.utc_offset
     end
 
     def years_ago(time, count)

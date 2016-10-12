@@ -3,8 +3,12 @@ require 'minitest_helper'
 describe TimeInZone do
 
   let(:time_string) { '2015-08-18 20:17:42 -0300' }
-  let(:time) { Time.parse(time_string).getlocal }
+  let(:time_value) { Time.parse(time_string).getlocal }
   let(:local_utc_offset) { time.utc_offset }
+
+  def time
+    Time.parse(time_string).getlocal
+  end
 
   def assert_equal_time(actual_time, expected_time)
     actual_time.to_f.must_equal expected_time.to_f
@@ -22,10 +26,10 @@ describe TimeInZone do
     describe 'Default zone' do
       
       it 'New' do
-        tz = TimeInZone.new time
-        tz.to_f.must_equal time.to_f
+        tz = TimeInZone.new time_value
+        tz.to_f.must_equal time_value.to_f
         tz.utc_offset.must_equal local_utc_offset
-        tz.hour.must_equal time.hour
+        tz.hour.must_equal time_value.hour
       end
 
       it 'Now' do
@@ -37,15 +41,15 @@ describe TimeInZone do
       end
 
       it 'At' do
-        tz = TimeInZone.at time.to_f
-        tz.to_f.must_equal time.to_f
+        tz = TimeInZone.at time_value.to_f
+        tz.to_f.must_equal time_value.to_f
         tz.utc_offset.must_equal local_utc_offset
-        tz.hour.must_equal time.hour
+        tz.hour.must_equal time_value.hour
       end
       
       it 'Parse date and time' do
-        tz = TimeInZone.parse time.strftime('%F %T')
-        assert_equal_time tz, time
+        tz = TimeInZone.parse time_value.strftime('%F %T')
+        assert_equal_time tz, time_value
       end
 
       it 'Parse only date' do
@@ -62,8 +66,8 @@ describe TimeInZone do
     describe 'With specific zone' do
 
       it 'New' do
-        tz = TimeInZone.new time, '+02:00'
-        tz.to_f.must_equal time.to_f
+        tz = TimeInZone.new time_value, '+02:00'
+        tz.to_f.must_equal time_value.to_f
         tz.utc_offset.must_equal ZoneOffset.parse('+0200')
         tz.day.must_equal 19
         tz.hour.must_equal 1
@@ -78,8 +82,8 @@ describe TimeInZone do
       end
 
       it 'At' do
-        tz = TimeInZone.at time.to_f, '+01:30'
-        tz.to_f.must_equal time.to_f
+        tz = TimeInZone.at time_value.to_f, '+01:30'
+        tz.to_f.must_equal time_value.to_f
         tz.utc_offset.must_equal ZoneOffset.parse('+0130')
         tz.day.must_equal 19
         tz.hour.must_equal 0
@@ -89,14 +93,14 @@ describe TimeInZone do
       it 'Parse date and time' do
         one_hour = 60 * 60
         offset = ZoneOffset.new local_utc_offset - one_hour
-        tz = TimeInZone.parse time.strftime("%F %T #{offset}")
-        tz.to_f.must_equal time.to_f + one_hour
+        tz = TimeInZone.parse time_value.strftime("%F %T #{offset}")
+        tz.to_f.must_equal time_value.to_f + one_hour
         tz.utc_offset.must_equal offset
-        tz.hour.must_equal time.hour
+        tz.hour.must_equal time_value.hour
       end
 
       it 'Invalid zone' do
-        error = proc { TimeInZone.new time, 'XYZ' }.must_raise ArgumentError
+        error = proc { TimeInZone.new time_value, 'XYZ' }.must_raise ArgumentError
         error.message.must_equal 'Invalid time zone offset XYZ'
       end
 
@@ -139,23 +143,23 @@ describe TimeInZone do
   describe 'Serialization' do
 
     it 'To string' do
-      TimeInZone.new(time).to_s.must_equal time.to_s
+      TimeInZone.new(time_value).to_s.must_equal time_value.to_s
     end
 
     it 'Formatted' do
-      TimeInZone.new(time).strftime('%d/%m/%y %H:%M:%S %:z').must_equal time.strftime('%d/%m/%y %H:%M:%S %:z')
+      TimeInZone.new(time_value).strftime('%d/%m/%y %H:%M:%S %:z').must_equal time_value.strftime('%d/%m/%y %H:%M:%S %:z')
     end
 
     it 'ISO 8601' do
-      TimeInZone.new(time).iso8601.must_equal time.iso8601
+      TimeInZone.new(time_value).iso8601.must_equal time_value.iso8601
     end
 
     it 'As json' do
-      TimeInZone.new(time).as_json.must_equal time.iso8601
+      TimeInZone.new(time_value).as_json.must_equal time_value.iso8601
     end
 
     it 'To json' do
-      TimeInZone.new(time).to_json.must_equal "\"#{time.iso8601}\""
+      TimeInZone.new(time_value).to_json.must_equal "\"#{time_value.iso8601}\""
     end
 
   end
@@ -163,19 +167,19 @@ describe TimeInZone do
   describe 'Math' do
 
     it '+' do
-      tz = TimeInZone.new(time) + 15
+      tz = TimeInZone.new(time_value) + 15
       tz.must_be_instance_of TimeInZone
-      tz.to_f.must_equal time.to_f + 15
+      tz.to_f.must_equal time_value.to_f + 15
     end
 
     it '-' do
-      tz = TimeInZone.new(time) - 23
+      tz = TimeInZone.new(time_value) - 23
       tz.must_be_instance_of TimeInZone
-      tz.to_f.must_equal time.to_f - 23
+      tz.to_f.must_equal time_value.to_f - 23
     end
 
     it 'Time - time' do
-      diff = TimeInZone.new(time) - TimeInZone.new(time - 10)
+      diff = TimeInZone.new(time_value) - TimeInZone.new(time_value - 10)
       diff.must_be_kind_of Numeric
       diff.must_equal 10
     end

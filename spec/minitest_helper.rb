@@ -1,17 +1,11 @@
 require 'coverage_helper'
 require 'minitest/autorun'
-require 'turn'
+require 'minitest/autorun'
+require 'minitest/colorin'
 require 'pry-nav'
 require 'timing'
 
-Turn.config do |c|
-  c.format = :pretty
-  c.natural = true
-  c.ansi = true
-end
-
 include Timing
-
 
 class Time
   class << self

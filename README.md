@@ -102,6 +102,8 @@ Last/Next day name
 - last fri +0100
 - next tuesday +0000
 - next sat -0100
+- last thursday including today -0300
+- next mon including today +0200
 
 Date (at 00:00:00)
 - 6 April

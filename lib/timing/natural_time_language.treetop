@@ -26,7 +26,7 @@ module Timing
     end
 
     rule last_next_day_name
-      direction:last_next space* day_name:day_name <LastNextDayName>
+      direction:last_next space* day_name:day_name space* including_today:'including today'? <LastNextDayName>
     end
 
     rule day_month_name_year

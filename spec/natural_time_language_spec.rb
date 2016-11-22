@@ -32,6 +32,11 @@ describe NaturalTimeLanguage do
     it_must_equal_time('last fri +0100')     { '2015-08-14 00:00:00 +0100' }
     it_must_equal_time('next tuesday +0000') { '2015-08-25 00:00:00 +0000' }
     it_must_equal_time('next sat -0100')     { '2015-08-22 00:00:00 -0100' }
+    
+    it_must_equal_time('last thursday -0300')                 { '2015-08-13 00:00:00 -0300' }
+    it_must_equal_time('last thursday including today -0300') { '2015-08-20 00:00:00 -0300' }
+    it_must_equal_time('next thursday -0300')                 { '2015-08-27 00:00:00 -0300' }
+    it_must_equal_time('next thursday including today -0300') { '2015-08-20 00:00:00 -0300' }
   end
 
   describe 'Date (at 00:00:00)' do

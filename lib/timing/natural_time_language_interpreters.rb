@@ -51,6 +51,8 @@ module Timing
       def evaluate(zone_offset)
         today = TimeInZone.now(zone_offset).beginning_of_day
 
+        return today if !including_today.empty? && today.wday == day_name.value
+
         if direction.last?
           if today.wday > day_name.value
             today - Interval.days(today.wday - day_name.value)

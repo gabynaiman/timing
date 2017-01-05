@@ -4,15 +4,21 @@ module Timing
     class << self
 
       def parse(expression)
-        parsed_expression = parser.parse expression.downcase
-        raise parser.failure_reason unless parsed_expression
-        parsed_expression.evaluate
+        mutex.synchronize do
+          parsed_expression = parser.parse expression.downcase
+          raise parser.failure_reason unless parsed_expression
+          parsed_expression.evaluate
+        end
       end
 
       private
 
       def parser
         @parser ||= NaturalTimeLanguageParser.new
+      end
+
+      def mutex
+        @mutex ||= Mutex.new
       end
 
     end

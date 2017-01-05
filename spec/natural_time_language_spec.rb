@@ -87,4 +87,15 @@ describe NaturalTimeLanguage do
     it_must_equal_time('2 years from 2001-05-21T12:30:40 -0500') { '2003-05-21 12:30:40 -0500' }
   end
 
+  it 'Thread safe' do
+    threads = 300.times.map do
+      Thread.new do
+        seconds = rand(60).to_s.rjust(2, '0')
+        input = "2017-01-05 15:19:#{seconds} -0300"
+        assert_equal Time.parse(input), NaturalTimeLanguage.parse(input)
+      end
+    end
+    threads.each(&:join)
+  end
+
 end

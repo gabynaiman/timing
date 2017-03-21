@@ -13,11 +13,15 @@ describe Interval do
     Interval.parse(expression).must_equal expected_seconds
   end
 
-  def assert_parsed_to_s(expression, expected_string, biggest_unit=nil, smallest_unit=nil)
+  def assert_parsed_to_s(expression, expected_string)
+    Interval.parse(expression).to_s.must_equal expected_string
+  end
+
+  def assert_human_format(seconds, expected_string, biggest_unit=nil, smallest_unit=nil)
     options = {}
     options[:biggest_unit] = biggest_unit if biggest_unit
     options[:smallest_unit] = smallest_unit if smallest_unit
-    Interval.parse(expression).to_s(options).must_equal expected_string
+    Interval.new(seconds).to_human(options).must_equal expected_string
   end
 
   it 'Parsing' do
@@ -65,20 +69,20 @@ describe Interval do
     assert_parsed_to_s '3w',  '3w'
   end
 
-  it 'To multiple units string' do
-    assert_parsed_to_s '70s', '70s', 's'
-    assert_parsed_to_s '70s', '1m 10s', 'm'
-    assert_parsed_to_s '70s', '1m 10s', 'h'
-    assert_parsed_to_s '70s', '1m', 'h', 'm'
-    assert_parsed_to_s '3666s', '1h 1m 6s', 'h'
-    assert_parsed_to_s '3666s', '61m 6s', 'm'
-    assert_parsed_to_s '3666s', '1h 1m 6s', 'd'
-    assert_parsed_to_s '604800s', '1w', 'w'
-    assert_parsed_to_s '1209600s', '2w', 'w'
-    assert_parsed_to_s '608400s', '1w 1h', 'w'
-    assert_parsed_to_s '1299785s', '2w 1d 1h 3m 5s', 'w'
-    assert_parsed_to_s '1299785s', '15d 1h 3m 5s', 'd'
-    assert_parsed_to_s '1299785s', '15d 1h 3m', 'd', 'm'
+  it 'To human' do
+    assert_human_format 70,      '70s',            's'
+    assert_human_format 70,      '1m 10s',         'm'
+    assert_human_format 70,      '1m 10s',         'h'
+    assert_human_format 70,      '1m', 'h',        'm'
+    assert_human_format 3666,    '1h 1m 6s',       'h'
+    assert_human_format 3666,    '61m 6s',         'm'
+    assert_human_format 3666,    '1h 1m 6s',       'd'
+    assert_human_format 604800,  '1w',             'w'
+    assert_human_format 1209600, '2w',             'w'
+    assert_human_format 608400,  '1w 1h',          'w'
+    assert_human_format 1299785, '2w 1d 1h 3m 5s', 'w'
+    assert_human_format 1299785, '15d 1h 3m 5s',   'd'
+    assert_human_format 1299785, '15d 1h 3m',      'd', 'm'
   end
 
   it 'Inspect' do

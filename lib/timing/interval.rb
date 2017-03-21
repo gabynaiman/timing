@@ -1,15 +1,5 @@
 module Timing
   class Interval < TransparentProxy
-
-    def self.parse(expression)
-      match = REGEXP.match expression.strip
-      raise "Invalid interval expression #{expression}" unless match
-      new match.captures[0].to_f * CONVERSIONS[match.captures[1].to_sym]
-    end
-
-    def self.between(time_1, time_2)
-      new (time_1 - time_2).round
-    end
     
     UNITS_NAMES = {
       s: :seconds,
@@ -39,6 +29,16 @@ module Timing
 
     REGEXP = /^([\d\.]+)([smhdw])$/
 
+    def self.parse(expression)
+      match = REGEXP.match expression.strip
+      raise "Invalid interval expression #{expression}" unless match
+      new match.captures[0].to_f * CONVERSIONS[match.captures[1].to_sym]
+    end
+
+    def self.between(time_1, time_2)
+      new (time_1 - time_2).round
+    end
+
     def initialize(seconds)
       raise ArgumentError, "#{seconds} is not a number" unless seconds.is_a? Numeric
       super seconds.abs
@@ -66,23 +66,7 @@ module Timing
       begin_of(time) + self - 1
     end
 
-    def to_s(opts={})
-      if opts.empty?
-        to_best_representation
-      else
-        biggest_unit = opts.fetch(:biggest_unit, :w)
-        smallest_unit = opts.fetch(:smallest_unit, :s)
-        to_human_representation(biggest_unit, smallest_unit)
-      end
-    end
-
-    def inspect
-      "#{to_s} (#{to_seconds})"
-    end
-
-    protected
-
-    def to_best_representation
+    def to_s
       representations = UNITS.map.with_index do |unit, i|
         representation = to_representation(unit, false, false)
         [representation, "#{representation.to_i}#{unit}"]
@@ -91,7 +75,9 @@ module Timing
       pair && pair[1] || "#{to_seconds}s"
     end
 
-    def to_human_representation(biggest_unit, smallest_unit)
+    def to_human(options={})
+      biggest_unit = options.fetch(:biggest_unit, :w)
+      smallest_unit = options.fetch(:smallest_unit, :s)
       last_index = UNITS.index(biggest_unit.to_sym)
       first_index = UNITS.index(smallest_unit.to_sym)
       units = UNITS[first_index..last_index]
@@ -102,6 +88,12 @@ module Timing
       end
       representations.select{ |(value, string)| value > 0 }.map(&:last).reverse.join(' ')
     end
+
+    def inspect
+      "#{to_s} (#{to_seconds})"
+    end
+
+    protected
 
     def to_representation(unit, acumulate=false, truncate=true)
       value = to_f / CONVERSIONS[unit]

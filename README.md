@@ -77,6 +77,11 @@ interval.to_minutes           # => 10080.0
 interval.to_hours             # => 168.0
 interval.to_days              # => 7.0
 interval.to_weeks             # => 1.0
+
+interval = Timing::Interval.seconds(1299785)
+interval.to_s(biggest_unit: 'w', smallest_unit: 's')  # => 2w 1d 1h 3m 5s
+interval.to_s(biggest_unit: 'd', smallest_unit: 's')  # => 15d 1h 3m 5s
+interval.to_s(biggest_unit: 'd', smallest_unit: 'm')  # => 15d 1h 3m
 ```
 
 

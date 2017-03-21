@@ -1,5 +1,15 @@
 module Timing
   class Interval < TransparentProxy
+
+    def self.parse(expression)
+      match = REGEXP.match expression.strip
+      raise "Invalid interval expression #{expression}" unless match
+      new match.captures[0].to_f * CONVERSIONS[match.captures[1].to_sym]
+    end
+
+    def self.between(time_1, time_2)
+      new (time_1 - time_2).round
+    end
     
     UNITS_NAMES = {
       s: :seconds,
@@ -16,6 +26,16 @@ module Timing
       d: 60 * 60 * 24,
       w: 60 * 60 * 24 * 7
     }
+
+    MULTIPLIER = {
+      s: 60,
+      m: 60,
+      h: 24,
+      d: 7,
+      w: 1
+    }
+
+    UNITS = UNITS_NAMES.map(&:first)
 
     REGEXP = /^([\d\.]+)([smhdw])$/
 
@@ -46,25 +66,47 @@ module Timing
       begin_of(time) + self - 1
     end
 
-    def to_s
-      integer = CONVERSIONS.map { |u,f| [to_f / f, "#{to_i / f}#{u}"] }
-                           .sort_by { |v,t| v }
-                           .detect { |v,t| v == v.to_i }
-      integer ? integer[1] : "#{to_seconds}s"
+    def to_s(opts={})
+      if opts.empty?
+        to_best_representation
+      else
+        biggest_unit = opts.fetch(:biggest_unit, :w)
+        smallest_unit = opts.fetch(:smallest_unit, :s)
+        to_human_representation(biggest_unit, smallest_unit)
+      end
     end
 
     def inspect
       "#{to_s} (#{to_seconds})"
     end
 
-    def self.parse(expression)
-      match = REGEXP.match expression.strip
-      raise "Invalid interval expression #{expression}" unless match
-      new match.captures[0].to_f * CONVERSIONS[match.captures[1].to_sym]
+    protected
+
+    def to_best_representation
+      representations = UNITS.map.with_index do |unit, i|
+        representation = to_representation(unit, false, false)
+        [representation, "#{representation.to_i}#{unit}"]
+      end
+      pair = representations.reverse.detect{ |value,representation| value == value.to_i }
+      pair && pair[1] || "#{to_seconds}s"
     end
 
-    def self.between(time_1, time_2)
-      new (time_1 - time_2).round
+    def to_human_representation(biggest_unit, smallest_unit)
+      last_index = UNITS.index(biggest_unit.to_sym)
+      first_index = UNITS.index(smallest_unit.to_sym)
+      units = UNITS[first_index..last_index]
+      representations = units.map.with_index do |unit, i|
+        acumulate = (i != last_index - first_index)
+        representation = to_representation(unit, acumulate)
+        [representation, "#{representation}#{unit}"]
+      end
+      representations.select{ |(value, string)| value > 0 }.map(&:last).reverse.join(' ')
+    end
+
+    def to_representation(unit, acumulate=false, truncate=true)
+      value = to_f / CONVERSIONS[unit]
+      value = value % MULTIPLIER[unit] if acumulate
+      truncate ? value.truncate : value
     end
 
   end

@@ -13,8 +13,11 @@ describe Interval do
     Interval.parse(expression).must_equal expected_seconds
   end
 
-  def assert_parsed_to_s(expression, expected_string)
-    Interval.parse(expression).to_s.must_equal expected_string
+  def assert_parsed_to_s(expression, expected_string, biggest_unit=nil, smallest_unit=nil)
+    options = {}
+    options[:biggest_unit] = biggest_unit if biggest_unit
+    options[:smallest_unit] = smallest_unit if smallest_unit
+    Interval.parse(expression).to_s(options).must_equal expected_string
   end
 
   it 'Parsing' do
@@ -48,6 +51,7 @@ describe Interval do
 
   it 'To string' do
     assert_parsed_to_s '30s', '30s'
+    assert_parsed_to_s '30s', '30s'
     assert_parsed_to_s '60s', '1m'
     assert_parsed_to_s '80s', '80s'
     assert_parsed_to_s '25m', '25m'
@@ -59,6 +63,22 @@ describe Interval do
     assert_parsed_to_s '4d',  '4d'
     assert_parsed_to_s '14d', '2w'
     assert_parsed_to_s '3w',  '3w'
+  end
+
+  it 'To multiple units string' do
+    assert_parsed_to_s '70s', '70s', 's'
+    assert_parsed_to_s '70s', '1m 10s', 'm'
+    assert_parsed_to_s '70s', '1m 10s', 'h'
+    assert_parsed_to_s '70s', '1m', 'h', 'm'
+    assert_parsed_to_s '3666s', '1h 1m 6s', 'h'
+    assert_parsed_to_s '3666s', '61m 6s', 'm'
+    assert_parsed_to_s '3666s', '1h 1m 6s', 'd'
+    assert_parsed_to_s '604800s', '1w', 'w'
+    assert_parsed_to_s '1209600s', '2w', 'w'
+    assert_parsed_to_s '608400s', '1w 1h', 'w'
+    assert_parsed_to_s '1299785s', '2w 1d 1h 3m 5s', 'w'
+    assert_parsed_to_s '1299785s', '15d 1h 3m 5s', 'd'
+    assert_parsed_to_s '1299785s', '15d 1h 3m', 'd', 'm'
   end
 
   it 'Inspect' do

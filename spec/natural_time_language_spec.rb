@@ -74,6 +74,9 @@ describe NaturalTimeLanguage do
     it_must_equal_time('2001-07-14 at 18:41')            { "2001-07-14 18:41:00 #{local_offset}" }
     it_must_equal_time('2012-08-17 14:35:20')            { "2012-08-17 14:35:20 #{local_offset}" }
     it_must_equal_time('1980-04-21T08:15:03-0500')       { '1980-04-21 08:15:03 -0500' }
+    it_must_equal_time('2018-12-07 12:03:00 UTC')        { '2018-12-07 12:03:00 +0000' }
+    it_must_equal_time('today utc')                      { '2015-08-20 00:00:00 +0000' }
+    it_must_equal_time('today at 13:25 utc')             { '2015-08-20 13:25:00 +0000' }
   end
 
   describe 'Before/After moment' do

@@ -25,7 +25,7 @@ module Timing
 
     class Expression < Treetop::Runtime::SyntaxNode
       def evaluate
-        moment.evaluate zone_offset.empty? ? nil : zone_offset.value
+        moment.evaluate zone_info.empty? ? nil : zone_info.value
       end
     end
 
@@ -303,6 +303,14 @@ module Timing
       SHORT_NAMES = ['', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
       def value
         SHORT_NAMES.index text_value[0..2].downcase
+      end
+    end
+
+    class ZoneName < Treetop::Runtime::SyntaxNode
+      def value
+        if text_value.downcase == 'utc'
+          '+0000'
+        end
       end
     end
 

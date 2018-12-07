@@ -2,7 +2,12 @@ module Timing
   grammar NaturalTimeLanguage
 
     rule expression
-      space* moment:moment space* zone_offset:zone_offset? space* <Expression>
+      space* moment:moment space* zone_info:zone_info? space* <Expression>
+    end
+
+    rule zone_info
+      zone_offset /
+      zone_name
     end
 
     rule moment
@@ -207,6 +212,10 @@ module Timing
 
     rule zone_offset
       [+-] [\d]2..2 ':'? [\d]2..2 <ZoneOffset>
+    end
+
+    rule zone_name
+      'utc' <ZoneName>
     end
 
     rule hour_minute_second

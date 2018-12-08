@@ -2,14 +2,14 @@ require 'minitest_helper'
 
 describe NaturalTimeLanguage do
 
-  before { Time.now = Time.parse '2015-08-20 05:30:46 +0000' }
+  before { Time.now = Time.parse '2015-08-20T05:30:46-0000' }
   after  { Time.now = nil }
 
   let(:local_offset) { TimeInZone.now.zone_offset }
 
   def self.it_must_equal_time(expression, &block)
     it expression do
-      expected = instance_eval &block
+      expected = instance_eval(&block)
       skip 'Not implemented' unless expected
       tz = NaturalTimeLanguage.parse expression
       tz.must_be_instance_of TimeInZone

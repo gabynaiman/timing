@@ -105,17 +105,19 @@ module Timing
 
     class YearMonthDay < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
+        now = TimeInZone.now zone_offset
         yyyy = year.value
         mm = month.value.to_s.rjust(2, '0')
         dd = day.value.to_s.rjust(2, '0')
-        TimeInZone.parse "#{yyyy}-#{mm}-#{dd} 00:00:00 #{zone_offset}"
+        TimeInZone.parse "#{yyyy}-#{mm}-#{dd} 00:00:00 #{now.zone_offset}"
       end
     end
 
     class MomentAtTime < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
+        now = TimeInZone.now zone_offset
         date = moment.evaluate zone_offset
-        TimeInZone.parse "#{date.strftime('%F')} #{time.value} #{date.zone_offset}"
+        TimeInZone.parse "#{date.strftime('%F')} #{time.value} #{now.zone_offset}"
       end
     end
 
@@ -132,7 +134,8 @@ module Timing
     
     class Timestamp < Treetop::Runtime::SyntaxNode
       def evaluate(zone_offset)
-        TimeInZone.parse "#{text_value}#{zone_offset}"
+        now = TimeInZone.now zone_offset
+        TimeInZone.parse "#{text_value}#{now.zone_offset}"
       end
     end
 

@@ -2,8 +2,8 @@ require 'minitest_helper'
 
 describe ZoneOffset do
   
-  def assert_parsed_hours(expression, expected_seconds)
-    ZoneOffset.parse(expression).must_equal expected_seconds * (60 * 60)
+  def assert_parsed_hours(expression, expected_hours)
+    ZoneOffset.parse(expression).must_equal expected_hours * (60 * 60)
   end
 
   def assert_to_string(offset_hours, expected_text)

@@ -94,6 +94,7 @@ Timing::NaturalTimeLanguage.parse 'now'
 ```
 
 Named moments
+```
 - now
 - Now -0500
 - today
@@ -101,37 +102,47 @@ Named moments
 - Today -0600
 - yesterday -0400
 - tomorrow -0300
+```
 
 Last/Next day name
+```
 - last Monday +0200
 - last fri +0100
 - next tuesday +0000
 - next sat -0100
 - last thursday including today -0300
 - next mon including today +0200
+```
 
 Date (at 00:00:00)
+```
 - 6 April
 - 14 Jul 2010 +0400
 - 2015-09-03
 - 2015-06-20 -0800
-    
+```
+
 Beginning/End of interval
+```
 - Beginning of month
 - end of year +0700
 - beginning of week
 - End of Day -0100
 - end of hour +0400
+```
 
 Time ago (now - interval)
+```
 - 1 minute ago
 - 3 hours ago -0500
 - 5 days ago -0100
 - 4 weeks ago +0100
 - 10 months ago +0330
 - 7 years ago -0700
+```
 
 Date at time
+```
 - today at 15:40
 - last sunday at 08:43:21 -0300
 - yesterday at beginning
@@ -142,8 +153,10 @@ Date at time
 - 2001-07-14 at 18:41
 - 2012-08-17 14:35:20
 - 1980-04-21T08:15:03-0500
+```
 
 Before/After moment
+```
 - 15 minutes from now
 - 3 days before yesterday
 - 1 month from today
@@ -152,6 +165,25 @@ Before/After moment
 - 1 month before beginning of month
 - 1 year before 9 Sep +0300
 - 2 years from 2001-05-21T12:30:40 -0500
+```
+
+
+#### HourMinutesSeconds
+
+Hour, minutes and seconds model.
+
+```ruby
+HourMinutesSeconds.new 9, 23, 41 # => 09:23:41
+HourMinutesSeconds.new 9, 23     # => 09:23:00
+HourMinutesSeconds.new 9         # => 09:23:00
+
+hhmmss = HourMinutesSeconds.parse '9:23:41'
+hhmmss.hour    # => 9
+hhmmss.minutes # => 23
+hhmmss.seconds # => 41
+hhmmss.iso8601 # => 09:23:41
+```
+
 
 ## Contributing
 

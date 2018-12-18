@@ -185,6 +185,21 @@ hhmmss.iso8601 # => 09:23:41
 ```
 
 
+#### ZoneOffset
+
+Seconds wrapper helper for utc offset
+
+```ruby
+Timing::ZoneOffset.new -10800 # => -0300 (-10800.0)
+Timing::ZoneOffset.new 21600  # => +0600 (21600.0)
+
+Timing::ZoneOffset.parse '-0300' # => -0300 (-10800.0)
+Timing::ZoneOffset.parse '+0600' # => +0600 (21600.0)
+
+zone_offset = Timing::ZoneOffset.parse '-0300'
+zone_offset.iso8601 # => '-03:00'
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/gabynaiman/timing.

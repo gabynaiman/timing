@@ -20,6 +20,53 @@ module Timing
     end
     alias_method :to_s, :iso8601
     alias_method :inspect, :iso8601
+
+    def ==(other)
+      other.kind_of?(self.class) && hash == other.hash
+    end
+    alias_method :eql?, :==
+
+    def hash
+      [hour, minutes, seconds].hash
+    end
+
+    def >(other)
+      raise ArgumentError, "Invalid argument #{other}" unless other.is_a?(HourMinutesSeconds)
+
+      (hour > other.hour) ||
+      (hour == other.hour && minutes > other.minutes) ||
+      (hour == other.hour && minutes == other.minutes && seconds > other.seconds)
+    end
+
+    def <(other)
+      raise ArgumentError, "Invalid argument #{other}" unless other.is_a?(HourMinutesSeconds)
+
+      (hour < other.hour) ||
+      (hour == other.hour && minutes < other.minutes) ||
+      (hour == other.hour && minutes == other.minutes && seconds < other.seconds)
+    end
+
+    def >=(other)
+      self > other || self == other
+    end
+
+    def <=(other)
+      self < other || self == other
+    end
+
+    def <=>(other)
+      if self == other
+        0
+      elsif self > other
+        1
+      else
+        -1
+      end
+    end
+
+    def between?(from, to)
+      self >= from && self <= to
+    end
     
     def self.parse(expression)
       match = expression.to_s.match HH_MM_SS_REGEX

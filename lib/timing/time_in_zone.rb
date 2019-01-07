@@ -45,7 +45,7 @@ module Timing
       self.class.new time, 0
     end
     alias_method :getutc, :to_utc
-    alias_method :utc, :to_utc
+    # alias_method :utc, :to_utc
 
     def to_zone(zone_offset)
       self.class.new time, zone_offset
@@ -140,7 +140,11 @@ module Timing
     end
 
     def method_missing(method, *args, &block)
-      time.send method, *args, &block
+      time.public_send method, *args, &block
+    end
+
+    def respond_to_missing?(method, include_private=false)
+      super || time.respond_to?(method)
     end
 
   end

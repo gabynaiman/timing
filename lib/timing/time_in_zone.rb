@@ -138,5 +138,9 @@ module Timing
       time.getutc + zone_offset
     end
 
+    def method_missing(method, *args, &block)
+      time.send method, *args, &block
+    end
+
   end
 end

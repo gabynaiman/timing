@@ -21,4 +21,4 @@ matrix:
     - rvm: jruby-head
 
 before_install:
-  - gem install bundler
+  - gem install bundler -v "< 2"

@@ -260,7 +260,7 @@ describe TimeInZone do
     time = TimeInZone.parse time_string
 
     error = proc { time.invalid_method }.must_raise NoMethodError
-    error.message.must_equal "undefined method `invalid_method' for #{time_string}:Time"
+    error.message.must_match /undefined method `invalid_method' for [\d\-\+\:\s]+:Time/
   end
 
 end

@@ -45,7 +45,7 @@ module Timing
       self.class.new time, 0
     end
     alias_method :getutc, :to_utc
-    # alias_method :utc, :to_utc
+    alias_method :utc, :to_utc
 
     def to_zone(zone_offset)
       self.class.new time, zone_offset

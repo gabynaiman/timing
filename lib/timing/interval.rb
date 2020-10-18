@@ -1,12 +1,12 @@
 module Timing
   class Interval < TransparentProxy
-    
+
     UNITS_NAMES = {
       s: :seconds,
       m: :minutes,
       h: :hours,
       d: :days,
-      w: :weeks 
+      w: :weeks
     }
 
     CONVERSIONS = {
@@ -30,9 +30,13 @@ module Timing
     REGEXP = /^([\d\.]+)([smhdw])$/
 
     def self.parse(expression)
-      match = REGEXP.match expression.strip
-      raise "Invalid interval expression #{expression}" unless match
-      new match.captures[0].to_f * CONVERSIONS[match.captures[1].to_sym]
+      seconds = expression.split(' ').inject(0) do |total, value|
+        match = REGEXP.match value.strip
+        raise "Invalid interval expression #{expression}" unless match
+        total + match.captures[0].to_f * CONVERSIONS[match.captures[1].to_sym]
+      end
+
+      new seconds
     end
 
     def self.between(time_1, time_2)

@@ -3,7 +3,7 @@ require 'minitest_helper'
 describe Interval do
 
   let(:random) { (rand * 10).round(1) }
-  
+
   let(:minutes_in_seconds) { 60 }
   let(:hours_in_seconds)   { 60 * 60 }
   let(:days_in_seconds)    { 60 * 60 * 24 }
@@ -30,6 +30,11 @@ describe Interval do
     assert_parsed_seconds "#{random}h", random * hours_in_seconds
     assert_parsed_seconds "#{random}d", random * days_in_seconds
     assert_parsed_seconds "#{random}w", random * weeks_in_seconds
+
+    assert_parsed_seconds "#{random}m #{random}s", random + random * minutes_in_seconds
+    assert_parsed_seconds "#{random}d #{random}m", random * days_in_seconds + random * minutes_in_seconds
+
+    assert_parsed_seconds "#{random}d #{random}h #{random}m", random * days_in_seconds + random * hours_in_seconds + random * minutes_in_seconds
 
     error = proc { Interval.parse 'xyz' }.must_raise RuntimeError
     error.message.must_equal 'Invalid interval expression xyz'

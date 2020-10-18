@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/gabynaiman/timing.svg?branch=master)](https://travis-ci.org/gabynaiman/timing)
 [![Coverage Status](https://coveralls.io/repos/github/gabynaiman/timing/badge.svg?branch=master)](https://coveralls.io/github/gabynaiman/timing?branch=master)
 [![Code Climate](https://codeclimate.com/github/gabynaiman/timing.svg)](https://codeclimate.com/github/gabynaiman/timing)
-[![Dependency Status](https://gemnasium.com/gabynaiman/timing.svg)](https://gemnasium.com/gabynaiman/timing)
 
 Time utils
 
@@ -70,6 +69,7 @@ Timing::Interval.parse('15m') # => 15m (900.0)
 Timing::Interval.parse('7h')  # => 7h (25200.0)
 Timing::Interval.parse('5d')  # => 5d (432000.0)
 Timing::Interval.parse('2w')  # => 2w (1209600.0)
+Timing::Interval.parse('1m 10s')  # => 1m 10s (70.0)
 
 interval = Timing::Interval.weeks(1)
 interval.to_seconds           # => 604800.0

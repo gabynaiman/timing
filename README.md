@@ -1,7 +1,7 @@
 # Timing
 
 [![Gem Version](https://badge.fury.io/rb/timing.svg)](https://rubygems.org/gems/timing)
-[![Build Status](https://travis-ci.org/gabynaiman/timing.svg?branch=master)](https://travis-ci.org/gabynaiman/timing)
+[![CI](https://github.com/gabynaiman/timing/actions/workflows/ci.yml/badge.svg)](https://github.com/gabynaiman/timing/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/gabynaiman/timing/badge.svg?branch=master)](https://coveralls.io/github/gabynaiman/timing?branch=master)
 [![Code Climate](https://codeclimate.com/github/gabynaiman/timing.svg)](https://codeclimate.com/github/gabynaiman/timing)
 

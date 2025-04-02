@@ -24,7 +24,7 @@ describe TimeInZone do
   describe 'Constructors' do
 
     describe 'Default zone' do
-      
+
       it 'New' do
         tz = TimeInZone.new time_value
         tz.to_f.must_equal time_value.to_f
@@ -46,7 +46,7 @@ describe TimeInZone do
         tz.utc_offset.must_equal local_utc_offset
         tz.hour.must_equal time_value.hour
       end
-      
+
       it 'Parse date and time' do
         tz = TimeInZone.parse time_value.strftime('%F %T')
         assert_equal_time tz, time_value
@@ -135,7 +135,7 @@ describe TimeInZone do
 
       tz.utc_offset.must_equal ZoneOffset.parse('-0300')
       other.utc_offset.must_equal ZoneOffset.parse('-0200')
-      other.hour.must_equal tz.hour + 1 
+      other.hour.must_equal tz.hour + 1
     end
 
   end
@@ -147,11 +147,16 @@ describe TimeInZone do
     end
 
     it 'Formatted' do
-      TimeInZone.new(time_value).strftime('%d/%m/%y %H:%M:%S %:z').must_equal time_value.strftime('%d/%m/%y %H:%M:%S %:z')
+      format = '%d/%m/%y %H:%M:%S %:z'
+      TimeInZone.new(time_value).strftime(format).must_equal time_value.strftime(format)
     end
 
     it 'ISO 8601' do
-      TimeInZone.new(time_value).iso8601.must_equal time_value.iso8601
+      tz = TimeInZone.new time_value
+      tz.iso8601.must_equal time_value.iso8601
+      tz.iso8601(0).must_equal time_value.iso8601(0)
+      tz.iso8601(3).must_equal time_value.iso8601(3)
+      tz.iso8601(7).must_equal time_value.iso8601(7)
     end
 
     it 'As json' do
@@ -220,7 +225,7 @@ describe TimeInZone do
       assert TimeInZone.parse(time_2) >= Time.parse(time_2)
       assert TimeInZone.parse(time_2) >= TimeInZone.parse(time_2)
     end
-    
+
     it '<' do
       time_1 = '2016-07-18 13:00:00 -0300'
       time_2 = '2016-07-18 15:00:00 -0300'
@@ -228,7 +233,7 @@ describe TimeInZone do
       assert TimeInZone.parse(time_1) < Time.parse(time_2)
       assert TimeInZone.parse(time_1) < TimeInZone.parse(time_2)
     end
-    
+
     it '<=' do
       time_1 = '2016-07-18 13:00:00 -0300'
       time_2 = '2016-07-18 15:00:00 -0300'
@@ -239,7 +244,7 @@ describe TimeInZone do
       assert TimeInZone.parse(time_1) <= Time.parse(time_1)
       assert TimeInZone.parse(time_1) <= TimeInZone.parse(time_1)
     end
-    
+
     it '<=>' do
       time_1 = '2016-07-18 13:00:00 -0300'
       time_2 = '2016-07-18 15:00:00 -0300'

@@ -9,7 +9,7 @@ module Timing
     def_delegators :time_with_offset, :year, :month, :day, :hour, :min, :sec, :wday, :yday, :sunday?, :monday?, :tuesday?, :wednesday?, :thursday?, :friday?, :saturday?
 
     attr_reader :zone_offset
-    
+
     def initialize(time, zone_offset=nil)
       @time = time
       @zone_offset = build_zone_offset(zone_offset || time.utc_offset)
@@ -69,8 +69,9 @@ module Timing
       time_with_offset.strftime sanitized_format
     end
 
-    def iso8601
-      strftime "%FT%T#{zone_offset.iso8601}"
+    def iso8601(fraction_digits=0)
+      decimals = fraction_digits > 0 ? ".%#{fraction_digits}N" : ''
+      strftime "%FT%T#{decimals}#{zone_offset.iso8601}"
     end
 
     def as_json(*args)

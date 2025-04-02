@@ -19,9 +19,9 @@ module Timing
     end
 
     rule date_moment
-      named_moment / 
-      last_next_day_name / 
-      day_month_name_year / 
+      named_moment /
+      last_next_day_name /
+      day_month_name_year /
       year_month_day /
       beginning_end_interval
     end
@@ -59,7 +59,7 @@ module Timing
     end
 
     rule timestamp
-      [\d]4..4 '-' [\d]2..2 '-' [\d]2..2 space* 't'? space* [\d]2..2 ':' [\d]2..2 ':' [\d]2..2 <Timestamp>
+      [\d]4..4 '-' [\d]2..2 '-' [\d]2..2 space* 't'? space* [\d]2..2 ':' [\d]2..2 ':' [\d]2..2 ('.' [\d]+)? <Timestamp>
     end
 
     rule now
@@ -115,12 +115,12 @@ module Timing
     end
 
     rule interval
-      second_interval / 
-      minute_interval / 
-      hour_interval / 
-      day_interval / 
-      week_interval / 
-      month_interval / 
+      second_interval /
+      minute_interval /
+      hour_interval /
+      day_interval /
+      week_interval /
+      month_interval /
       year_interval
     end
 

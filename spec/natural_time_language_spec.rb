@@ -11,9 +11,10 @@ describe NaturalTimeLanguage do
     it expression do
       expected = instance_eval(&block)
       skip 'Not implemented' unless expected
+      expected_time = expected.is_a?(String) ? Time.parse(expected) : expected
       tz = NaturalTimeLanguage.parse expression
       tz.must_be_instance_of TimeInZone
-      tz.to_s.must_equal expected.to_s
+      tz.to_f.must_equal expected_time.to_f
     end
   end
 
@@ -32,7 +33,7 @@ describe NaturalTimeLanguage do
     it_must_equal_time('last fri +0100')     { '2015-08-14 00:00:00 +0100' }
     it_must_equal_time('next tuesday +0000') { '2015-08-25 00:00:00 +0000' }
     it_must_equal_time('next sat -0100')     { '2015-08-22 00:00:00 -0100' }
-    
+
     it_must_equal_time('last thursday -0300')                 { '2015-08-13 00:00:00 -0300' }
     it_must_equal_time('last thursday including today -0300') { '2015-08-20 00:00:00 -0300' }
     it_must_equal_time('next thursday -0300')                 { '2015-08-27 00:00:00 -0300' }
@@ -45,7 +46,7 @@ describe NaturalTimeLanguage do
     it_must_equal_time('2015-09-03')        { "2015-09-03 00:00:00 #{local_offset}" }
     it_must_equal_time('2015-06-20 -0800')  { '2015-06-20 00:00:00 -0800' }
   end
-    
+
   describe 'Beginning/End of interval' do
     it_must_equal_time('Beginning of month') { "2015-08-01 00:00:00 #{local_offset}" }
     it_must_equal_time('end of year +0700')  { '2015-12-31 23:59:59 +0700' }
@@ -74,6 +75,7 @@ describe NaturalTimeLanguage do
     it_must_equal_time('2001-07-14 at 18:41')            { "2001-07-14 18:41:00 #{local_offset}" }
     it_must_equal_time('2012-08-17 14:35:20')            { "2012-08-17 14:35:20 #{local_offset}" }
     it_must_equal_time('1980-04-21T08:15:03-0500')       { '1980-04-21 08:15:03 -0500' }
+    it_must_equal_time('2009-01-31T02:43:21.361+0400')   { '2009-01-31 02:43:21.361 +0400' }
     it_must_equal_time('2018-12-07 12:03:00 UTC')        { '2018-12-07 12:03:00 +0000' }
     it_must_equal_time('today utc')                      { '2015-08-20 00:00:00 +0000' }
     it_must_equal_time('today at 13:25 utc')             { '2015-08-20 13:25:00 +0000' }

@@ -812,6 +812,9 @@ module Timing
     module Timestamp0
     end
 
+    module Timestamp1
+    end
+
     def _nt_timestamp
       start_index = index
       if node_cache[:timestamp].has_key?(index)
@@ -1047,6 +1050,53 @@ module Timing
                                 r21 = instantiate_node(SyntaxNode,input, i21...index, s21)
                               end
                               s0 << r21
+                              if r21
+                                i24, s24 = index, []
+                                if has_terminal?('.', false, index)
+                                  r25 = instantiate_node(SyntaxNode,input, index...(index + 1))
+                                  @index += 1
+                                else
+                                  terminal_parse_failure('.')
+                                  r25 = nil
+                                end
+                                s24 << r25
+                                if r25
+                                  s26, i26 = [], index
+                                  loop do
+                                    if has_terminal?('\G[\\d]', true, index)
+                                      r27 = true
+                                      @index += 1
+                                    else
+                                      r27 = nil
+                                    end
+                                    if r27
+                                      s26 << r27
+                                    else
+                                      break
+                                    end
+                                  end
+                                  if s26.empty?
+                                    @index = i26
+                                    r26 = nil
+                                  else
+                                    r26 = instantiate_node(SyntaxNode,input, i26...index, s26)
+                                  end
+                                  s24 << r26
+                                end
+                                if s24.last
+                                  r24 = instantiate_node(SyntaxNode,input, i24...index, s24)
+                                  r24.extend(Timestamp0)
+                                else
+                                  @index = i24
+                                  r24 = nil
+                                end
+                                if r24
+                                  r23 = r24
+                                else
+                                  r23 = instantiate_node(SyntaxNode,input, index...index)
+                                end
+                                s0 << r23
+                              end
                             end
                           end
                         end
@@ -1061,7 +1111,7 @@ module Timing
       end
       if s0.last
         r0 = instantiate_node(Timestamp,input, i0...index, s0)
-        r0.extend(Timestamp0)
+        r0.extend(Timestamp1)
       else
         @index = i0
         r0 = nil

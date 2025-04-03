@@ -75,10 +75,13 @@ describe NaturalTimeLanguage do
     it_must_equal_time('2001-07-14 at 18:41')            { "2001-07-14 18:41:00 #{local_offset}" }
     it_must_equal_time('2012-08-17 14:35:20')            { "2012-08-17 14:35:20 #{local_offset}" }
     it_must_equal_time('1980-04-21T08:15:03-0500')       { '1980-04-21 08:15:03 -0500' }
+    it_must_equal_time('2002-10-13T12:23:44Z')           { '2002-10-13 12:23:44 +0000' }
     it_must_equal_time('2009-01-31T02:43:21.361+0400')   { '2009-01-31 02:43:21.361 +0400' }
+    it_must_equal_time('1992-04-23T07:20:33.548Z')       { '1992-04-23 07:20:33.548 +0000' }
     it_must_equal_time('2018-12-07 12:03:00 UTC')        { '2018-12-07 12:03:00 +0000' }
     it_must_equal_time('today utc')                      { '2015-08-20 00:00:00 +0000' }
     it_must_equal_time('today at 13:25 utc')             { '2015-08-20 13:25:00 +0000' }
+    it_must_equal_time('today at 08:43:21 z')            { '2015-08-20 08:43:21 +0000' }
   end
 
   describe 'Before/After moment' do

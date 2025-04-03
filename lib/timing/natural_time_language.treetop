@@ -215,7 +215,8 @@ module Timing
     end
 
     rule zone_name
-      'utc' <ZoneName>
+      'utc' <ZoneName> /
+      'z' <ZoneName>
     end
 
     rule hour_minute_second

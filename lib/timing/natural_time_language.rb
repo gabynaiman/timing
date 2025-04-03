@@ -2613,12 +2613,30 @@ module Timing
         return cached
       end
 
+      i0 = index
       if has_terminal?('utc', false, index)
-        r0 = instantiate_node(ZoneName,input, index...(index + 3))
+        r1 = instantiate_node(ZoneName,input, index...(index + 3))
         @index += 3
       else
         terminal_parse_failure('utc')
-        r0 = nil
+        r1 = nil
+      end
+      if r1
+        r0 = r1
+      else
+        if has_terminal?('z', false, index)
+          r2 = instantiate_node(ZoneName,input, index...(index + 1))
+          @index += 1
+        else
+          terminal_parse_failure('z')
+          r2 = nil
+        end
+        if r2
+          r0 = r2
+        else
+          @index = i0
+          r0 = nil
+        end
       end
 
       node_cache[:zone_name][start_index] = r0

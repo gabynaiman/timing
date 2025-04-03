@@ -310,8 +310,9 @@ module Timing
     end
 
     class ZoneName < Treetop::Runtime::SyntaxNode
+      UTC_VALUES = ['utc', 'z']
       def value
-        if text_value.downcase == 'utc'
+        if UTC_VALUES.include? text_value.downcase
           '+0000'
         end
       end
